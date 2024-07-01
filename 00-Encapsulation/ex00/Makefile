@@ -1,4 +1,4 @@
-NAME		=	ex00
+NAME		=	ex00.out
 SRC			=	DivideAndRule.cpp main.cpp
 CPP			=	c++
 CPPFLAGS	=	-Wall -Wextra -Werror -std=c++98 -MMD

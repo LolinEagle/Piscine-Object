@@ -1,5 +1,5 @@
-NAME		=	ex01.out
-SRC			=	main.cpp
+NAME		=	ex00.out
+SRC			=	main.cpp Relationship.cpp
 CPP			=	c++
 CPPFLAGS	=	-Wall -Wextra -Werror -std=c++98 -MMD -g3
 RM			=	rm -rf
@@ -10,7 +10,8 @@ OBJ_DIRS	=	${OBJ_PATH}
 OBJ			=	${addprefix ${OBJ_PATH},${SRC:.cpp=.o}}
 DEPS		=	${addprefix ${OBJ_PATH},${SRC:.cpp=.d}}
 
-all:${NAME}
+all:
+	make ${NAME}
 
 clean:
 	${RM} ${OBJ_PATH}
