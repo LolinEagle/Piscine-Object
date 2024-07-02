@@ -1,5 +1,5 @@
 NAME		=	ex00.out
-SRC			=	main.cpp Relationship.cpp
+SRC			=	main.cpp Tool.cpp Worker.cpp Workshop.cpp
 CPP			=	c++
 CPPFLAGS	=	-Wall -Wextra -Werror -std=c++98 -MMD -g3
 RM			=	rm -rf
