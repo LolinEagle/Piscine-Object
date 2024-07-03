@@ -7,21 +7,19 @@
 class Tool;
 class Workshop;
 
-struct Position{
-	int	x;
-	int	y;
-	int	z;
-};
-
-struct Statistic{
-	int	level;
-	int	exp;
-};
-
 class Worker{
 private:
+	struct Position{
+		int	x, y, z;
+	};
+
+	struct Statistic{
+		int	level, exp;
+	};
+
 	Position	_coordonnee;
 	Statistic	_stat;
+
 	Tool*		_tool;
 	Workshop*	_workshop;
 public:
@@ -35,7 +33,7 @@ public:
 	void		setWorkshop(Workshop* workshop){_workshop = workshop;}
 
 	void		takeTool(Tool* tool);
-	void		giveTool(void);
+	void		giveBackTool(void);
 	void		work(void);
 
 	template<typename ToolType>

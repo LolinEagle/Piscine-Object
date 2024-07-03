@@ -6,18 +6,23 @@ Worker::Worker(void): _tool(NULL), _workshop(NULL){
 
 Worker::~Worker(){
 	cout << RED << "Worker: Destructor called" << ENDL;
+	if (_tool) _tool->setWorker(NULL);
+	if (_workshop) _workshop->workshopRelease(this);
 }
 
 void	Worker::takeTool(Tool* tool){
-	if (_tool == NULL){
+	if (_tool == NULL && tool){
 		if (tool->getWorker()) tool->getWorker()->setTool(NULL);// Remove from last worker
 		tool->setWorker(this);
 		_tool = tool;
-		cout << "Worker take a tool" << endl;
+		cout << GREEN << "Worker take a tool" << ENDL;
+		return ;
 	}
+	cout << YELLOW << "Worker can't take this tool" << ENDL;
+	return ;
 }
 
-void	Worker::giveTool(void){
+void	Worker::giveBackTool(void){
 	if (_tool != NULL){
 		_tool->setWorker(NULL);
 		_tool = NULL;

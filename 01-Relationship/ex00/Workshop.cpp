@@ -6,12 +6,16 @@ Workshop::Workshop(void){
 
 Workshop::Workshop(const string& toolType){
 	cout << BLUE << "Workshop: Constructor called" << ENDL;
-	if (toolType == "Shovel" || toolType == "Shovel")
+	if (toolType == "Shovel" || toolType == "Hammer")
 		_toolType = toolType;
 }
 
 Workshop::~Workshop(){
 	cout << RED << "Workshop: Destructor called" << ENDL;
+	for (vector<Worker*>::iterator it = _Workers.begin(); it != _Workers.end(); it++){
+		(*it)->setWorkshop(NULL);
+		cout << GREEN << "Worker is now released" << ENDL;
+	}
 }
 
 void	Workshop::workshopRegister(Worker* worker){
@@ -35,6 +39,7 @@ void	Workshop::workshopRegister(Worker* worker){
 void	Workshop::workshopRelease(Worker* worker){
 	for (vector<Worker*>::iterator it = _Workers.begin(); it != _Workers.end(); it++){
 		if (*it == worker){
+			(*it)->setWorkshop(NULL);
 			_Workers.erase(it);
 			cout << GREEN << "Worker is now released" << ENDL;
 			return ;

@@ -1,7 +1,7 @@
 #include <Tool.hpp>
 
-Tool::Tool(void): _numberOfUses(0){
-	cout << BLUE << "Tool: Constructor called" << ENDL;
+Tool::Tool(void): _numberOfUses(0), _worker(NULL){
+	cout << BLUE << "Tool: Constructor called; " << RESET;
 }
 
 Tool::~Tool(){
@@ -13,7 +13,8 @@ Shovel::Shovel(void){
 }
 
 Shovel::~Shovel(){
-	cout << RED << "Shovel: Destructor called" << ENDL;
+	if (_worker) _worker->giveBackTool();
+	cout << RED << "Shovel: Destructor called; " << RESET;
 }
 
 void	Shovel::use(void){
@@ -26,7 +27,8 @@ Hammer::Hammer(void){
 }
 
 Hammer::~Hammer(){
-	cout << RED << "Hammer: Destructor called" << ENDL;
+	if (_worker) _worker->giveBackTool();
+	cout << RED << "Hammer: Destructor called; " << RESET;
 }
 
 void	Hammer::use(void){
