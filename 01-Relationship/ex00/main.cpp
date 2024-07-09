@@ -14,6 +14,7 @@ int	main(void){
 	Shovel		shovel3;
 	Hammer		hammer1;
 	Hammer		hammer2;
+	Hammer		hammer3;
 
 	Workshop	workshop1("Shovel");
 	Workshop	workshop2("Hammer");
@@ -21,22 +22,25 @@ int	main(void){
 
 	worker1.takeTool(&shovel2);
 	cout << "Should not be null:" << worker1.getTool<Shovel>() << endl;
-	cout << "Should be null:" << worker1.getTool<Hammer>() << endl;
+	cout << "Should be null (0):" << worker1.getTool<Hammer>() << endl;
 	worker2.takeTool(&shovel2);
-	cout << "Should be null:" << worker1.getTool() << endl;
+	cout << "Should be true (1):" << worker1.getTools().empty() << endl;
 	worker1.takeTool(&shovel1);
-	worker3.takeTool(&shovel3);
-	worker4.takeTool(&hammer1);
-	worker5.takeTool(&hammer2);
+	worker3.takeTool(&hammer1);
+	worker4.takeTool(&hammer2);
+	worker5.takeTool(&shovel3);
+	worker5.takeTool(&hammer3);
+	worker5.takeTool(&hammer3);
 
 	workshop1.workshopRegister(&worker1);
 	workshop1.workshopRegister(&worker2);
+	workshop1.workshopRegister(&worker5);
 	workshop1.workshopRegister(&worker3);
-	workshop1.workshopRegister(&worker4);
 
+	workshop2.workshopRegister(&worker3);
 	workshop2.workshopRegister(&worker4);
 	workshop2.workshopRegister(&worker5);
-	workshop2.workshopRegister(&worker3);
+	workshop2.workshopRegister(&worker1);
 
 	workshop3.workshopRegister(&worker1);
 	workshop3.workshopRegister(&worker2);

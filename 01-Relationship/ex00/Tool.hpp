@@ -13,11 +13,10 @@ public:
 	Tool(void);
 	virtual ~Tool();
 
-	virtual void		use(void) = 0;
+	Worker*			getWorker(void) const;
+	void			setWorker(Worker* worker);
 
-	virtual const char*	getType(void) const = 0;
-	Worker*				getWorker(void) const {return (_worker);}
-	void				setWorker(Worker* worker){_worker = worker;}
+	virtual void	use(void) = 0;
 };
 
 class Shovel: public Tool{
@@ -26,8 +25,6 @@ public:
 	~Shovel();
 
 	void		use(void);
-
-	const char*	getType(void) const {return ("Shovel");}
 };
 
 class Hammer: public Tool{
@@ -36,6 +33,4 @@ public:
 	~Hammer();
 
 	void		use(void);
-
-	const char*	getType(void) const {return ("Hammer");}
 };

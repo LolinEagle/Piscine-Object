@@ -7,14 +7,14 @@ class Worker;
 
 class Workshop{
 private:
-	vector<Worker*>	_Workers;
+	vector<Worker*>	_workers;
 	string			_toolType;
 public:
 	Workshop(void);
 	Workshop(const string& toolType);
 	~Workshop();
 
-	const string&	getToolType(void) const {return (_toolType);}
+	const string&	getToolType(void) const;
 
 	void	workshopRegister(Worker* worker);
 	void	workshopRelease(Worker* worker);

@@ -17,29 +17,31 @@ private:
 		int	level, exp;
 	};
 
-	Position	_coordonnee;
-	Statistic	_stat;
-
-	Tool*		_tool;
-	Workshop*	_workshop;
+	Position			_coordonnee;
+	Statistic			_stat;
+	vector<Tool*>		_tools;
+	vector<Workshop*>	_workshops;
 public:
 	Worker(void);
 	~Worker();
 
-	Position	getCoordonnee(void) const {return (_coordonnee);}
-	Statistic	getStat(void) const {return (_stat);}
-	Tool*		getTool(void) const {return (_tool);}
-	void		setTool(Tool* tool){_tool = tool;}
-	void		setWorkshop(Workshop* workshop){_workshop = workshop;}
+	int					getCoordonnee(int i) const;
+	int					getStat(int i) const;
+	vector<Tool*>		getTools(void) const;
+	vector<Workshop*>	getWorkshops(void) const;
 
-	void		takeTool(Tool* tool);
-	void		giveBackTool(void);
-	void		work(void);
+	void	takeTool(Tool* tool);
+	void	giveBackTool(Tool* tool);
+	void	workerRegister(Workshop* workshop);
+	void	workerRelease(Workshop* workshop);
+	void	work(void);
 
 	template<typename ToolType>
 	ToolType*	getTool(void) const {
-		if (_tool && dynamic_cast<ToolType*>(_tool))
-			return (dynamic_cast<ToolType*>(_tool));
+		for (size_t i = 0; i < _tools.size(); i++){
+			if (dynamic_cast<ToolType*>(_tools[i]))
+				return (dynamic_cast<ToolType*>(_tools[i]));
+		}
 		return (NULL);
 	}
 };

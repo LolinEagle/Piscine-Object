@@ -8,12 +8,20 @@ Tool::~Tool(){
 	cout << RED << "Tool: Destructor called" << ENDL;
 }
 
+Worker*			Tool::getWorker(void) const {
+	return (_worker);
+}
+
+void			Tool::setWorker(Worker* worker){
+	_worker = worker;
+}
+
 Shovel::Shovel(void){
 	cout << BLUE << "Shovel: Constructor called" << ENDL;
 }
 
 Shovel::~Shovel(){
-	if (_worker) _worker->giveBackTool();
+	if (_worker) _worker->giveBackTool(this);
 	cout << RED << "Shovel: Destructor called; " << RESET;
 }
 
@@ -27,7 +35,7 @@ Hammer::Hammer(void){
 }
 
 Hammer::~Hammer(){
-	if (_worker) _worker->giveBackTool();
+	if (_worker) _worker->giveBackTool(this);
 	cout << RED << "Hammer: Destructor called; " << RESET;
 }
 
