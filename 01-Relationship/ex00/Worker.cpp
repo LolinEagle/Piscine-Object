@@ -82,7 +82,7 @@ void	Worker::giveBackTool(Tool* tool){
 }
 
 void	Worker::workerRegister(Workshop* workshop){
-	if (find(_workshops.begin(), _workshops.end(), workshop) != _workshops.end())
+	if (find(_workshops.begin(), _workshops.end(), workshop) == _workshops.end())
 		_workshops.push_back(workshop);
 }
 
