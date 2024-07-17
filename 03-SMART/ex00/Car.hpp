@@ -93,7 +93,7 @@ void	Car::straighten_wheels(void){
 }
 
 void	Car::apply_force_on_brakes(float force){
-	if (force < 0)
+	if (force <= 0)
 		return ;
 	if (force > 1.f)
 		_brakesForce = 1.f;

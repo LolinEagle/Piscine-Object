@@ -24,7 +24,7 @@ ThuesdayDiscountCommand::~ThuesdayDiscountCommand(){
 float	ThuesdayDiscountCommand::getTotalPrice(void){
 	float	total_price = Command::getTotalPrice();
 
-	if (true)
+	if (_date.find("Thuesday") != string::npos)
 		total_price = total_price * .9f;
 	return (total_price);
 }

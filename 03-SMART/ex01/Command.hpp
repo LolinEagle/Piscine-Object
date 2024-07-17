@@ -37,8 +37,8 @@ Command::~Command(){
 }
 
 void	Command::printAll(void){
-	cout << "id:" << _id << '\n' << "date:" << _date << '\n' << "client:" <<
-			_client << '\n' << "articles:" << _articles << endl;
+	cout << "Id : " << _id << '\n' << "Date : " << _date << '\n' << "Client : " <<
+			_client << '\n' << "Articles : " << _articles << endl;
 }
 
 float	Command::getTotalPrice(void){
@@ -50,8 +50,12 @@ float	Command::getTotalPrice(void){
 	while (token.empty() == false){
 		if (token == "Shiromaru")
 			total_price += 14.f;
-		else if (token == "Akamaru" || token == "Karaka" || token == "Tori_Shoyu" || token == "Veggie")
+		else if (
+			token == "Akamaru" || token == "Karaka" || token == "Tori_Shoyu" || token == "Veggie"
+		)
 			total_price += 15.f;
+		else
+			cout << token << " are not on the menu." << endl;
 		token.clear();
 		iss >> token;
 	}
