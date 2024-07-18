@@ -14,10 +14,7 @@ public:
 
 PackageReductionDiscountCommand::PackageReductionDiscountCommand(
 	const string& date, const string& client, const string& articles
-){
-	_date = date;
-	_client = client;
-	_articles = articles;
+): Command(date, client, articles){
 }
 
 PackageReductionDiscountCommand::~PackageReductionDiscountCommand(){

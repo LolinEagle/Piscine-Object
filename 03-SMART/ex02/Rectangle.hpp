@@ -12,8 +12,8 @@ public:
 	);
 	~Rectangle();
 
-	double	calculatingArea(void);
-	double	calculatingPerimeter(void);
+	double	getArea(void);
+	double	getPerimeter(void);
 };
 
 Rectangle::Rectangle(void):
@@ -28,11 +28,11 @@ Rectangle::Rectangle(
 Rectangle::~Rectangle(){
 }
 
-double	Rectangle::calculatingArea(void){
-	return (find_dist(_x1, _y1, _x2, _y2) * find_dist(_x1, _y1, _x3, _y3));
+double	Rectangle::getArea(void){
+	return (findDist(_x1, _y1, _x2, _y2) * findDist(_x1, _y1, _x3, _y3));
 }
 
-double	Rectangle::calculatingPerimeter(void){
-	return (find_dist(_x1, _y1, _x2, _y2) + find_dist(_x1, _y1, _x3, _y3) +
-			find_dist(_x4, _y4, _x2, _y2) + find_dist(_x4, _y4, _x3, _y3));
+double	Rectangle::getPerimeter(void){
+	return (findDist(_x1, _y1, _x2, _y2) + findDist(_x1, _y1, _x3, _y3) +
+			findDist(_x4, _y4, _x2, _y2) + findDist(_x4, _y4, _x3, _y3));
 }

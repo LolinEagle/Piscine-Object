@@ -1,7 +1,7 @@
-#include <EmployeeManagement.hpp>
+#include <EmployeeManager.hpp>
 
 int	main(void){
-	EmployeeManagement	manager;
+	EmployeeManager		manager;
 	TempWorker			tempWorker(10);
 	ContractEmployee	contractEmployee(13);
 	Apprentice			apprentice(8);
@@ -11,18 +11,29 @@ int	main(void){
 	manager.addEmployee(&apprentice);
 
 	// Simulate workdays
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 5; i++)
 		manager.executeWorkday();
 
+	// Calculate payroll
+	// Should be 350
+	// Should be 455
+	// Should be 280
+	manager.calculatePayroll();
+
 	// Log additional hours
-	tempWorker.mobilize(32);
-	contractEmployee.logVacation(5);
-	apprentice.logSchoolHours(8);
+	tempWorker.mobilize(14);
+	contractEmployee.logVacation(35);
+	apprentice.logSchoolHours(35);
+
+	// Simulate workdays
+	for (int i = 0; i < 5; i++)
+		manager.executeWorkday();
 
 	// Calculate payroll
+	// Should be 840
+	// Should be 455
+	// Should be 420
+	cout << endl;
 	manager.calculatePayroll();
-	// Should be 1720
-	// Should be 1820
-	// Should be 1120
 	return (0);
 }

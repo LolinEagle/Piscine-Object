@@ -10,8 +10,8 @@ public:
 	Circle(double radius);
 	~Circle();
 
-	double	calculatingArea(void);
-	double	calculatingPerimeter(void);
+	double	getArea(void);
+	double	getPerimeter(void);
 };
 
 Circle::Circle(void): _radius(0.f){
@@ -23,10 +23,10 @@ Circle::Circle(double radius): _radius(radius){
 Circle::~Circle(){
 }
 
-double	Circle::calculatingArea(void){
+double	Circle::getArea(void){
 	return (_radius * M_PI);
 }
 
-double	Circle::calculatingPerimeter(void){
+double	Circle::getPerimeter(void){
 	return (_radius * M_PI * 2);
 }

@@ -5,8 +5,6 @@
 
 using namespace std;
 
-size_t id = 0;
-
 class Command{
 protected:
 	size_t	_id;
@@ -14,7 +12,6 @@ protected:
 	string	_client;
 	string	_articles;
 public:
-	Command(void);
 	Command(const string& date, const string& client, const string& articles);
 	~Command();
 
@@ -22,11 +19,9 @@ public:
 	float	getTotalPrice(void);
 };
 
-Command::Command(void){
-	_id = id++;
-}
-
 Command::Command(const string& date, const string& client, const string& articles){
+	static size_t id = 0;
+
 	_id = id++;
 	_date = date;
 	_client = client;
