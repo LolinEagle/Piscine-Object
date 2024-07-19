@@ -3,46 +3,59 @@
 using namespace std;
 
 class Car{
-private:
-	struct Engine{
+public:
+	class Engine{
+	private:
 		Car*	_car;
 		bool	_engine;
 		float	_speed;
+	public:
+		Engine(void): _car(NULL), _engine(false), _speed(0.f){}
+		bool	getEngine(void) const {return (_engine);};
+		void	setCar(Car* car){_car = car;}
 
-		Engine(void): _engine(false), _speed(0.f){}
 		void	start(void);
 		void	stop(void);
 		void	accelerate(float speed);
 	};
 
-	struct GearLever{
+	class GearLever{
+	private:
 		Car*	_car;
 		int		_gear;
+	public:
+		GearLever(void): _car(NULL), _gear(0){}
+		void	setCar(Car* car){_car = car;}
 
-		GearLever(void): _gear(0){}
 		void	shift_gears_up(void);
 		void	shift_gears_down(void);
 		void	reverse(void);
 	};
 
-	struct Wheel{
+	class Wheel{
+	private:
 		Car*	_car;
 		float	_wheelAngle;
+	public:
+		Wheel(void): _car(NULL), _wheelAngle(0.f){}
+		void	setCar(Car* car){_car = car;}
 
-		Wheel(void): _wheelAngle(0.f){}
 		void	turn_wheel(float angle);
 		void	straighten_wheels(void);
 	};
 
-	struct Brakes{
+	class Brakes{
+	private:
 		Car*	_car;
 		float	_brakesForce;
+	public:
+		Brakes(void): _car(NULL), _brakesForce(0.f){}
+		void	setCar(Car* car){_car = car;}
 
-		Brakes(void): _brakesForce(0.f){}
 		void	apply_force_on_brakes(float force);
 		void	apply_emergency_brakes(void);
 	};
-
+private:
 	Engine		_engine;
 	GearLever	_gearLever;
 	Wheel		_wheel;
@@ -64,35 +77,39 @@ public:
 };
 
 Car::Car(void){
-	_engine._car = this;
-	_gearLever._car = this;
-	_wheel._car = this;
-	_brakes._car = this;
+	_engine.setCar(this);
+	_gearLever.setCar(this);
+	_wheel.setCar(this);
+	_brakes.setCar(this);
 }
 
 Car::~Car(){
 }
 
 void	Car::Engine::start(void){
+	if (!_car)
+		return ;
 	_engine = true;
 	cout << "Car start" << endl;
 }
 
 void	Car::Engine::stop(void){
+	if (!_car)
+		return ;
 	_car->_brakes.apply_emergency_brakes();
 	_engine = false;
 	cout << "Car stop" << endl;
 }
 
 void	Car::Engine::accelerate(float speed){
-	if (_car->_engine._engine == false)
+	if (!_car || _car->_engine._engine == false)
 		return ;
 	_speed += speed;
 	cout << "Car accelerate to " << _speed << endl;
 }
 
 void	Car::GearLever::shift_gears_up(void){
-	if (_car->_engine._engine == false)
+	if (!_car || _car->_engine.getEngine() == false)
 		return ;
 	if (_gear < 6){
 		_gear++;
@@ -101,7 +118,7 @@ void	Car::GearLever::shift_gears_up(void){
 }
 
 void	Car::GearLever::shift_gears_down(void){
-	if (_car->_engine._engine == false)
+	if (!_car || _car->_engine.getEngine() == false)
 		return ;
 	if (_gear > 0){
 		_gear--;
@@ -110,14 +127,14 @@ void	Car::GearLever::shift_gears_down(void){
 }
 
 void	Car::GearLever::reverse(void){
-	if (_car->_engine._engine == false)
+	if (!_car || _car->_engine.getEngine() == false)
 		return ;
 	_gear = -1;
 	cout << "Car gears is reverse" << endl;
 }
 
 void	Car::Wheel::turn_wheel(float angle){
-	if (_car->_engine._engine == false)
+	if (!_car || _car->_engine.getEngine() == false)
 		return ;
 	_wheelAngle += angle;
 	if (_wheelAngle < -45.f)
@@ -128,14 +145,14 @@ void	Car::Wheel::turn_wheel(float angle){
 }
 
 void	Car::Wheel::straighten_wheels(void){
-	if (_car->_engine._engine == false)
+	if (!_car || _car->_engine.getEngine() == false)
 		return ;
 	_wheelAngle = 0.f;
 	cout << "Car wheel angle is straighten" << endl;
 }
 
 void	Car::Brakes::apply_force_on_brakes(float force){
-	if (force <= 0)
+	if (!_car || force <= 0)
 		return ;
 	if (force > 1.f)
 		_brakesForce = 1.f;
@@ -145,6 +162,8 @@ void	Car::Brakes::apply_force_on_brakes(float force){
 }
 
 void	Car::Brakes::apply_emergency_brakes(void){
+	if (!_car)
+		return ;
 	_brakesForce = 1.f;
 	cout << "Car brakes force is maxed" << endl;
 }

@@ -20,11 +20,21 @@ public:
 };
 
 class TempWorker: public Employee{
+private:
+	int	_totalMobilizeHours;
 public:
-	TempWorker(int hourlyValue): Employee(hourlyValue){}
+	TempWorker(int hourlyValue): Employee(hourlyValue), _totalMobilizeHours(0){}
 
-	void	executeWorkday(void){_totalHoursWorked += 7;}
-	void	mobilize(int hours){_totalHoursWorked += hours;}
+	void	executeWorkday(void){
+		if (_totalMobilizeHours >= 7){
+			_totalHoursWorked += 7;
+			_totalMobilizeHours -= 7;
+		} else if (_totalMobilizeHours){
+			_totalHoursWorked += _totalMobilizeHours;
+			_totalMobilizeHours = 0;
+		}
+	}
+	void	mobilize(int hours){_totalMobilizeHours += hours;}
 };
 
 class ContractEmployee: public Employee{
@@ -53,7 +63,9 @@ public:
 	Apprentice(int hourlyValue): ContractEmployee(hourlyValue), _totalSchoolHours(0){}
 
 	void	executeWorkday(void){
-		if (_totalSchoolHours >= 7){
+		if (_totalVacationHours >= 7){
+			_totalVacationHours -= 7;
+		} else if (_totalSchoolHours >= 7){
 			_totalHoursWorked += 3.5f;
 			_totalSchoolHours -= 7;
 		} else if (_totalSchoolHours){

@@ -15,13 +15,13 @@ int	main(void){
 		manager.executeWorkday();
 
 	// Calculate payroll
-	// Should be 350
+	// Should be 0
 	// Should be 455
 	// Should be 280
 	manager.calculatePayroll();
 
 	// Log additional hours
-	tempWorker.mobilize(14);
+	tempWorker.mobilize(35);
 	contractEmployee.logVacation(35);
 	apprentice.logSchoolHours(35);
 
@@ -30,7 +30,7 @@ int	main(void){
 		manager.executeWorkday();
 
 	// Calculate payroll
-	// Should be 840
+	// Should be 350
 	// Should be 455
 	// Should be 420
 	cout << endl;
