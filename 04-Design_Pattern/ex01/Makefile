@@ -1,9 +1,9 @@
-NAME		=	ex00.out
-SRC			=	main.cpp
+NAME		=	ex01.out
+SRC			=	main.cpp List.cpp
 CPP			=	c++
 CPPFLAGS	=	-Wall -Wextra -Werror -MMD
 RM			=	rm -rf
-INC			=	-I ./
+INC			=	-I ../ex00 -I ./
 SRC_PATH	=	./
 OBJ_PATH	=	./obj/
 OBJ_DIRS	=	${OBJ_PATH}

@@ -1,7 +1,7 @@
 NAME		=	ex00.out
 SRC			=	main.cpp
 CPP			=	c++
-CPPFLAGS	=	-Wall -Wextra -Werror -std=c++98 -MMD -g3
+CPPFLAGS	=	-Wall -Wextra -Werror -std=c++98 -MMD
 RM			=	rm -rf
 INC			=	-I ./
 SRC_PATH	=	./
@@ -33,7 +33,7 @@ ${OBJ_DIRS}:
 	mkdir ${OBJ_DIRS}
 
 ${NAME}:${OBJ_DIRS} ${OBJ}
-	${CPP} ${OBJ} -lpng -o $@
+	${CPP} ${CPPFLAGS} ${OBJ} -o $@
 
 .PHONY:all clean fclean re run
 

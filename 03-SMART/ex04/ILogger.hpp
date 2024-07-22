@@ -7,6 +7,7 @@
 using namespace std;
 
 class ILogger{
+public:
 	virtual void	write(string) = 0;
 };
 
@@ -15,6 +16,7 @@ protected:
 	ostream	_os;
 public:
 	AOstream(streambuf* sb): _os(sb){}
+	~AOstream(){}
 };
 
 class AFstream: public ILogger{
@@ -22,6 +24,7 @@ protected:
 	fstream	_fs;
 public:
 	AFstream(const char* filename){_fs.open(filename, ios::out);}
+	~AFstream(){_fs.close();}
 };
 
 class LoggerOstream: public AOstream{

@@ -41,6 +41,6 @@ void	EmployeeManager::calculatePayroll(void){
 		float	totalHours = (*it)->getTotalHoursWorked();
 		int		hourlyValue = (*it)->getHourlyValue();
 
-		cout << "Employee monthly pay: " << totalHours * hourlyValue << endl;
+		cout << "Employee pay: " << totalHours * hourlyValue << endl;
 	}
 }
