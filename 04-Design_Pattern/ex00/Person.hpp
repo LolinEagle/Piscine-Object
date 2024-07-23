@@ -9,47 +9,50 @@ class Course;
 class Room;
 
 class Person{
-private:
+protected:
 	string	_name;
 	Room*	_currentRoom;
 public:
-	Person(string p_name);
+	Person(string name): _name(name), _currentRoom(NULL){}
 
 	Room*	room(void){return (_currentRoom);}
 };
 
-class Staff : public Person{
+class Staff: public Person{
 public:
-	void	sign(Form* p_form);
+	void	sign(Form* form){cout << form << "is signed" << endl;}
 };
 
-class Student : public Person{
+class Student: public Person{
 private:
 	vector<Course*>	_subscribedCourse;
 public:
-	void	attendClass(Classroom* p_classroom);
-	void	exitClass(void);
-	void	graduate(Course* p_course);
+	void	attendClass(Classroom* classroom){(void)classroom; cout << "TODO" << endl;}
+	void	exitClass(void){_currentRoom = NULL;}
+	void	graduate(Course* course){(void)course; cout << "TODO" << endl;}
 };
 
-class Headmaster : public Staff{
+class Headmaster: public Staff{
 private:
 	vector<Form*>	_formToValidate;
 public:
-	void	receiveForm(Form* p_form);
+	void	receiveForm(Form* form){
+		if (find(_formToValidate.begin(), _formToValidate.end(), form) == _formToValidate.end())
+			_formToValidate.push_back(form);
+	}
 };
 
-class Secretary : public Staff{
+class Secretary: public Staff{
 public:
-	Form*	createForm(FormType p_formType);
-	void	archiveForm(void);
+	Form*	createForm(FormType formType){(void)formType; cout << "TODO" << endl; return (NULL);}
+	void	archiveForm(void){cout << "TODO" << endl;}
 };
 
-class Professor : public Staff{
+class Professor: public Staff{
 private:
 	Course*	_currentCourse;
 public:
-	void	assignCourse(Course* p_course);
-	void	doClass(void);
-	void	closeCourse(void);
+	void	assignCourse(Course* course){_currentCourse = course;}
+	void	doClass(void){cout << "TODO" << endl;}
+	void	closeCourse(void){_currentCourse = NULL;}
 };

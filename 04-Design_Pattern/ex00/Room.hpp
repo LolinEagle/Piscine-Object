@@ -6,30 +6,55 @@ using namespace std;
 
 class Room{
 private:
-	size_t			ID;
+	size_t			_id;
 	vector<Person*>	_occupants;
 public:
 	Room(void);
 
-	bool canEnter(Person*);
-	void	enter(Person*);
-	void	exit(Person*);
-	
+	bool	canEnter(Person* person);
+	void	enter(Person* person);
+	void	exit(Person* person);
 	void	printOccupant(void);
 };
 
-class Classroom : public Room{
-private:
-	Course* _currentRoom;
+Room::Room(void){
+	static size_t id = 0;
 
+	_id = id++;
+}
+
+bool	Room::canEnter(Person* person){
+	(void)person;
+	cout << "TODO" << endl;
+	return (0);
+}
+
+void	Room::enter(Person* person){
+	if (find(_occupants.begin(), _occupants.end(), person) == _occupants.end())
+		_occupants.push_back(person);
+}
+
+void	Room::exit(Person* person){
+	auto	it = find(_occupants.begin(), _occupants.end(), person);
+	if (it != _occupants.end())
+		_occupants.erase(it);
+}
+
+void	Room::printOccupant(void){
+	cout << "TODO" << endl;
+}
+
+class Classroom: public Room{
+private:
+	Course*	_currentRoom;
 public:
-	Classroom(void);
-	void	assignCourse(Course* p_course);
+	Classroom(void): _currentRoom(NULL){}
+	void	assignCourse(Course* course){_currentRoom = course;}
 };
 
 class SecretarialOffice: public Room{
 private:
-	vector<Form*> _archivedForms;
+	vector<Form*>	_archivedForms;
 };
 
 class HeadmasterOffice : public Room{

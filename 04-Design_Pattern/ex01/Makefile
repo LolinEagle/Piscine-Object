@@ -1,5 +1,5 @@
 NAME		=	ex01.out
-SRC			=	main.cpp List.cpp
+SRC			=	main.cpp
 CPP			=	c++
 CPPFLAGS	=	-Wall -Wextra -Werror -MMD
 RM			=	rm -rf

@@ -1,8 +1,8 @@
 #pragma once
 
+#include <algorithm>
 #include <iostream>
 #include <vector>
-
 #include <Form.hpp>
 #include <Person.hpp>
 #include <Room.hpp>
@@ -20,11 +20,19 @@ private:
 	int					_numberOfClassToGraduate;
 	int					_maximumNumberOfStudent;
 public:
-	Course(string p_name);
+	Course(string name):
+	_name(name), _responsable(NULL), _numberOfClassToGraduate(0), _maximumNumberOfStudent(0){}
 
-	void	assign(Professor* p_professor);
-	void	subscribe(Student* p_student);
+	int		getNumberOfClassToGraduate(void){return (_numberOfClassToGraduate);}
+	int		getMaximumNumberOfStudent(void){return (_maximumNumberOfStudent);}
+	void	assign(Professor* professor){_responsable = professor;}
+	void	subscribe(Student* student);
 };
+
+void	Course::subscribe(Student* student){
+	if (find(_students.begin(), _students.end(), student) == _students.end())
+		_students.push_back(student);
+}
 
 enum class Event{
 	RingBell

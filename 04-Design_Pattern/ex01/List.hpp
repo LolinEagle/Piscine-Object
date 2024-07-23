@@ -1,13 +1,15 @@
+#pragma once
+
 #include <Singetons.hpp>
 
-class StudentList: public Singetons<Student>{
-public:
-	StudentList(void){}
-	~StudentList(){}
+class StudentList: public Singetons<Student, StudentList>{
 };
 
+class StaffList: public Singetons<Staff, StaffList>{
+};
 
+class CourseList: public Singetons<Course, CourseList>{
+};
 
-// StaffList, holding every staff existing in the school.
-// • CourseList, holding every course currently running in the school.
-// • RoomList, holding every room existing in the school
+class RoomList: public Singetons<Room, RoomList>{
+};
