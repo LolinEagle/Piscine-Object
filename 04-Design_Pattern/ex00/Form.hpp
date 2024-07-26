@@ -1,6 +1,7 @@
 #pragma once
 
-#include <Datas.hpp>
+#include <Course.hpp>
+#include <Room.hpp>
 
 enum class FormType{
 	CourseFinished,
@@ -9,42 +10,65 @@ enum class FormType{
 	SubscriptionToCourse
 };
 
+class Course;
+class Classroom;
+
 class Form{
-private:
+protected:
 	FormType	_formType;
+	bool		_signed;
 public:
-	Form(FormType formType): _formType(formType){}
+	Form(FormType formType): _formType(formType), _signed(false){}
+	virtual ~Form(){};
 
 	friend ostream&	operator<<(ostream& os, const Form& form);
 
 	virtual void	execute(void) = 0;
-	FormType		getFormType(void){return(_formType);}
+	FormType		getFormType(void) const {return(_formType);}
+	bool			getSigned(void) const {return(_signed);}
+	void			setSigned(void){_signed = true;}
 };
 
 class CourseFinishedForm: public Form{
+private:
+	Course*	_course;
 public:
-	CourseFinishedForm(void): Form(FormType::CourseFinished){}
+	CourseFinishedForm(void): Form(FormType::CourseFinished), _course(NULL){}
 
-	void	execute(void){cout << "CourseFinishedForm" << endl;}
+	void	setCourse(Course* course){_course = course;}
+	void	execute(void);
 };
 
 class NeedMoreClassRoomForm: public Form{
+private:
+	Classroom*	_classroom;
 public:
-	NeedMoreClassRoomForm(void): Form(FormType::NeedMoreClassRoom){}
+	NeedMoreClassRoomForm(void): Form(FormType::NeedMoreClassRoom), _classroom(NULL){}
 
-	void	execute(void){cout << "NeedMoreClassRoomForm" << endl;}
+	Classroom*	getClassroom(void){return (_classroom);}
+	void	execute(void);
 };
 
 class NeedCourseCreationForm: public Form{
+private:
+	string	_name;
+	Course*	_course;
 public:
-	NeedCourseCreationForm(void): Form(FormType::NeedCourseCreation){}
+	NeedCourseCreationForm(void): Form(FormType::NeedCourseCreation), _course(NULL){}
 
-	void	execute(void){cout << "NeedCourseCreationForm" << endl;}
+	Course*	getCourse(void){return (_course);}
+	void	setName(string name){_name = name;}
+	void	execute(void);
 };
 
 class SubscriptionToCourseForm: public Form{
+private:
+	Course*		_course;
+	Student*	_student;
 public:
-	SubscriptionToCourseForm(void): Form(FormType::SubscriptionToCourse){}
+	SubscriptionToCourseForm(void): Form(FormType::SubscriptionToCourse), _course(NULL), _student(NULL){}
 
-	void	execute(void){cout << "SubscriptionToCourseForm" << endl;}
+	void	setCourse(Course* course){_course = course;}
+	void	setStudent(Student* student){_student = student;}
+	void	execute(void);
 };

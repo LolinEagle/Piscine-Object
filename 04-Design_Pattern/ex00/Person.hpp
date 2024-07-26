@@ -3,9 +3,12 @@
 #include <Datas.hpp>
 #include <Course.hpp>
 #include <Form.hpp>
+#include <Room.hpp>
 
-class Classroom;
+class Form;
 class Room;
+class Classroom;
+enum class FormType;
 
 class Person{
 protected:
@@ -22,7 +25,7 @@ class Staff: public Person{
 public:
 	Staff(string name): Person(name){}
 
-	void	sign(Form* form){cout << *form << " is signed" << endl;}
+	void	sign(Form* form);
 };
 
 class Student: public Person{
@@ -44,6 +47,7 @@ public:
 
 	vector<Form*>	getFormToValidate(void){return (_formToValidate);}
 	void			receiveForm(Form* form);
+	void			executeForm(void);
 };
 
 class Secretary: public Staff{
@@ -51,7 +55,7 @@ public:
 	Secretary(string name): Staff(name){}
 
 	Form*	createForm(FormType formType);
-	void	archiveForm(void);
+	void	archiveForm(Form* form);
 };
 
 class Professor: public Staff{

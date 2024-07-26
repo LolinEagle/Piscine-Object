@@ -1,7 +1,11 @@
 #pragma once
 
 #include <Datas.hpp>
+#include <Form.hpp>
 #include <Person.hpp>
+
+class Form;
+class Person;
 
 class Room{
 private:
@@ -27,6 +31,9 @@ public:
 class SecretarialOffice: public Room{
 private:
 	vector<Form*>	_archivedForms;
+public:
+	vector<Form*>	getArchivedForms(void){return (_archivedForms);}
+	void			addForm(Form* form);
 };
 
 class HeadmasterOffice: public Room{
