@@ -1,11 +1,10 @@
 #pragma once
 
 #include <Datas.hpp>
-
-using namespace std;
+#include <Course.hpp>
+#include <Form.hpp>
 
 class Classroom;
-class Course;
 class Room;
 
 class Person{
@@ -15,44 +14,53 @@ protected:
 public:
 	Person(string name): _name(name), _currentRoom(NULL){}
 
+	string	getName(void){return (_name);}
 	Room*	room(void){return (_currentRoom);}
 };
 
 class Staff: public Person{
 public:
-	void	sign(Form* form){cout << form << "is signed" << endl;}
+	Staff(string name): Person(name){}
+
+	void	sign(Form* form){cout << *form << " is signed" << endl;}
 };
 
 class Student: public Person{
 private:
 	vector<Course*>	_subscribedCourse;
 public:
-	void	attendClass(Classroom* classroom){(void)classroom; cout << "TODO" << endl;}
-	void	exitClass(void){_currentRoom = NULL;}
-	void	graduate(Course* course){(void)course; cout << "TODO" << endl;}
+	Student(string name): Person(name){}
+
+	void	attendClass(Classroom* classroom);
+	void	exitClass(void);
+	void	graduate(Course* course);
 };
 
 class Headmaster: public Staff{
 private:
 	vector<Form*>	_formToValidate;
 public:
-	void	receiveForm(Form* form){
-		if (find(_formToValidate.begin(), _formToValidate.end(), form) == _formToValidate.end())
-			_formToValidate.push_back(form);
-	}
+	Headmaster(string name): Staff(name){}
+
+	vector<Form*>	getFormToValidate(void){return (_formToValidate);}
+	void			receiveForm(Form* form);
 };
 
 class Secretary: public Staff{
 public:
-	Form*	createForm(FormType formType){(void)formType; cout << "TODO" << endl; return (NULL);}
-	void	archiveForm(void){cout << "TODO" << endl;}
+	Secretary(string name): Staff(name){}
+
+	Form*	createForm(FormType formType);
+	void	archiveForm(void);
 };
 
 class Professor: public Staff{
 private:
 	Course*	_currentCourse;
 public:
-	void	assignCourse(Course* course){_currentCourse = course;}
-	void	doClass(void){cout << "TODO" << endl;}
-	void	closeCourse(void){_currentCourse = NULL;}
+	Professor(string name): Staff(name){}
+
+	void	assignCourse(Course* course);
+	void	doClass(void);
+	void	closeCourse(void);
 };

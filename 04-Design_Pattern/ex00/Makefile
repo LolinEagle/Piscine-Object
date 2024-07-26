@@ -1,7 +1,9 @@
 NAME		=	ex00.out
-SRC			=	main.cpp
+LIB			=	ex00.a
+SRC			=	Course.cpp Form.cpp Person.cpp Room.cpp
 CPP			=	c++
 CPPFLAGS	=	-Wall -Wextra -Werror -MMD
+AR			=	ar -r
 RM			=	rm -rf
 INC			=	-I ./
 SRC_PATH	=	./
@@ -17,12 +19,14 @@ clean:
 	${RM} ${OBJ_PATH}
 
 fclean:clean
-	${RM} ${NAME}
+	${RM} ${NAME} ${LIB}
 
 re:fclean
 	make all
 
 run:${NAME}
+	${CPP} ${CPPFLAGS} ${INC} -c main.cpp -o obj/main.o
+	${CPP} ${CPPFLAGS} ${OBJ} ./obj/main.o -o ${NAME}
 	clear
 	./${NAME}
 
@@ -33,7 +37,7 @@ ${OBJ_DIRS}:
 	mkdir ${OBJ_DIRS}
 
 ${NAME}:${OBJ_DIRS} ${OBJ}
-	${CPP} ${CPPFLAGS} ${OBJ} -o $@
+	${AR} ${LIB} ${OBJ}
 
 .PHONY:all clean fclean re run
 

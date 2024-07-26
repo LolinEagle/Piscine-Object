@@ -1,6 +1,9 @@
 #pragma once
 
-#include <Datas.hpp>
+#include <Course.hpp>
+#include <Form.hpp>
+#include <Person.hpp>
+#include <Room.hpp>
 #include <mutex>
 #include <thread>
 

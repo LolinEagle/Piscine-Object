@@ -1,8 +1,7 @@
 #pragma once
 
 #include <Datas.hpp>
-
-using namespace std;
+#include <Person.hpp>
 
 class Room{
 private:
@@ -17,33 +16,6 @@ public:
 	void	printOccupant(void);
 };
 
-Room::Room(void){
-	static size_t id = 0;
-
-	_id = id++;
-}
-
-bool	Room::canEnter(Person* person){
-	(void)person;
-	cout << "TODO" << endl;
-	return (0);
-}
-
-void	Room::enter(Person* person){
-	if (find(_occupants.begin(), _occupants.end(), person) == _occupants.end())
-		_occupants.push_back(person);
-}
-
-void	Room::exit(Person* person){
-	auto	it = find(_occupants.begin(), _occupants.end(), person);
-	if (it != _occupants.end())
-		_occupants.erase(it);
-}
-
-void	Room::printOccupant(void){
-	cout << "TODO" << endl;
-}
-
 class Classroom: public Room{
 private:
 	Course*	_currentRoom;
@@ -57,11 +29,11 @@ private:
 	vector<Form*>	_archivedForms;
 };
 
-class HeadmasterOffice : public Room{
+class HeadmasterOffice: public Room{
 };
 
-class StaffRestRoom : public Room{
+class StaffRestRoom: public Room{
 };
 
-class Courtyard : public Room{
+class Courtyard: public Room{
 };

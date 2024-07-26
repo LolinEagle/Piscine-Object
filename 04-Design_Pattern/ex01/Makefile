@@ -14,9 +14,11 @@ all:
 	make ${NAME}
 
 clean:
+	make -C ../ex00 clean
 	${RM} ${OBJ_PATH}
 
 fclean:clean
+	make -C ../ex00 fclean
 	${RM} ${NAME}
 
 re:fclean
@@ -33,7 +35,8 @@ ${OBJ_DIRS}:
 	mkdir ${OBJ_DIRS}
 
 ${NAME}:${OBJ_DIRS} ${OBJ}
-	${CPP} ${CPPFLAGS} ${OBJ} -o $@
+	make -C ../ex00
+	${CPP} ${CPPFLAGS} ${OBJ} ../ex00/ex00.a -o $@
 
 .PHONY:all clean fclean re run
 
