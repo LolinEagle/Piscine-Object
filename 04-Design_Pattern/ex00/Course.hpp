@@ -16,8 +16,12 @@ public:
 	Course(string name):
 	_name(name), _responsable(NULL), _numberOfClassToGraduate(0), _maximumNumberOfStudent(0){}
 
-	int		getNumberOfClassToGraduate(void){return (_numberOfClassToGraduate);}
-	int		getMaximumNumberOfStudent(void){return (_maximumNumberOfStudent);}
+	string				getName(void){return (_name);}
+	Professor*			getResponsable(void){return (_responsable);}
+	vector<Student*>	getStudent(void){return (_students);}
+	int					getNumberOfClassToGraduate(void){return (_numberOfClassToGraduate);}
+	int					getMaximumNumberOfStudent(void){return (_maximumNumberOfStudent);}
+
 	void	assign(Professor* professor){_responsable = professor;}
 	void	subscribe(Student* student);
 	void	graduate(void){_numberOfClassToGraduate++;}

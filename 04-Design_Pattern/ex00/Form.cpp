@@ -33,3 +33,9 @@ void	SubscriptionToCourseForm::execute(void){
 	if (_course && _student)
 		_course->subscribe(_student);
 }
+
+void	GraduateStudentForm::execute(void){
+	cout << "Graduate student" << endl;
+	if (_student && _course)
+		_student->graduate(_course);
+}

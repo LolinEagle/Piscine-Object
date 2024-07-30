@@ -7,7 +7,8 @@ enum class FormType{
 	CourseFinished,
 	NeedMoreClassRoom,
 	NeedCourseCreation,
-	SubscriptionToCourse
+	SubscriptionToCourse,
+	GraduateStudent,
 };
 
 class Course;
@@ -46,7 +47,7 @@ public:
 	NeedMoreClassRoomForm(void): Form(FormType::NeedMoreClassRoom), _classroom(NULL){}
 
 	Classroom*	getClassroom(void){return (_classroom);}
-	void	execute(void);
+	void		execute(void);
 };
 
 class NeedCourseCreationForm: public Form{
@@ -70,5 +71,18 @@ public:
 
 	void	setCourse(Course* course){_course = course;}
 	void	setStudent(Student* student){_student = student;}
+	void	execute(void);
+};
+
+class GraduateStudentForm: public Form{
+private:
+	Course*		_course;
+	Student*	_student;
+public:
+	GraduateStudentForm(void): Form(FormType::GraduateStudent), _course(NULL), _student(NULL){}
+
+	void	setCourse(Course* course){_course = course;}
+	void	setStudent(Student* student){_student = student;}
+	Course*	getCourse(void){return (_course);}
 	void	execute(void);
 };
