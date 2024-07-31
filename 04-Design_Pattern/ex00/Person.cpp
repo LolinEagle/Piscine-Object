@@ -4,6 +4,25 @@ void	Staff::sign(Form* form){
 	form->setSigned();
 }
 
+void	Student::attendClass(Classroom* classroom){
+	if (!classroom || !classroom->getCurrentRoom())
+		return ;
+	if (find(_subscribedCourse.begin(), _subscribedCourse.end(), classroom->getCurrentRoom()) == _subscribedCourse.end())
+		_subscribedCourse.push_back(classroom->getCurrentRoom());
+}
+
+void	Student::exitClass(Course* course){
+	// Leave course
+	vector<Course*>::iterator it = find(_subscribedCourse.begin(), _subscribedCourse.end(), course);
+	if (it != _subscribedCourse.end())
+		_subscribedCourse.erase(it);
+}
+
+void	Student::subscribedCourse(Course* course){
+	if (find(_subscribedCourse.begin(), _subscribedCourse.end(), course) == _subscribedCourse.end())
+		_subscribedCourse.push_back(course);
+}
+
 void	Headmaster::receiveForm(Form* form){
 	if (find(_formToValidate.begin(), _formToValidate.end(), form) == _formToValidate.end())
 		if (form->getSigned() == false) _formToValidate.push_back(form);
@@ -19,7 +38,24 @@ void	Headmaster::executeForm(void){
 void	Headmaster::assignProfessorToCourse(Professor* professor, Course* course){
 	if (!professor)
 		return ;
-	professor->assignCourse(course);
+	professor->assignCourse(course, this);
+}
+
+void	Headmaster::assignStudentToCourse(Student* student, Course* course){
+	if (!student || !course)
+		return ;
+	course->subscribe(student);
+}
+
+SubscriptionToCourseForm*	Headmaster::receiveSubscriptionToCourseForm(void){
+	if (!_secretary)
+		return (NULL);
+	// Headmaster to Secretary : Can i get a new course form ?
+	// Secretary to Headmaster : Here, take this form
+	// Headmaster to Professor : You need to fill this form
+	return (dynamic_cast<SubscriptionToCourseForm*>(
+		_secretary->createForm(FormType::SubscriptionToCourse)
+	));
 }
 
 GraduateStudentForm*	Headmaster::receiveGraduateStudentForm(void){
@@ -33,10 +69,17 @@ GraduateStudentForm*	Headmaster::receiveGraduateStudentForm(void){
 	));
 }
 
+void	Headmaster::confirmAssignCourse(SubscriptionToCourseForm* form){
+	// [Sign form and execute the course creation]
+	form->setSigned();
+	form->execute();
+	delete (form);
+}
+
 void	Headmaster::confirmGraduation(GraduateStudentForm* form){
 	// [Sign form and execute the graduation]
 	form->setSigned();
-	form->execute();
+	form->execute();// Congratulation, you're graduate you can leave this course
 	delete (form);
 }
 
@@ -58,13 +101,17 @@ Form*	Secretary::createForm(FormType formType){
 	return (form);
 }
 
-void	Professor::assignCourse(Course* course){
-	if (!course)
+void	Professor::assignCourse(Course* course, Headmaster* headmaster){
+	if (!course || !headmaster)
 		return ;
-	if (_currentCourse)
-		_currentCourse->assign(NULL);
-	_currentCourse = course;
-	course->assign(this);
+	SubscriptionToCourseForm*	form = headmaster->receiveSubscriptionToCourseForm();
+	if (!form)
+		return ;
+	// [Write down information]
+	form->setCourse(course);
+	form->setProfessor(this);
+	// Can you confirm the creation of this course ?
+	headmaster->confirmAssignCourse(form);
 }
 
 void	Professor::doClass(void){
@@ -82,9 +129,16 @@ void	Professor::graduateStudent(Headmaster* headmaster, Student* student, Course
 	if (!headmaster || !student)
 		return ;
 	GraduateStudentForm* form = headmaster->receiveGraduateStudentForm();
+	if (!form)
+		return ;
 	// [Write down information]
 	form->setCourse(course);
 	form->setStudent(student);
 	// Can you confirm this graduation ?
 	headmaster->confirmGraduation(form);
+}
+
+void	Professor::learnStudent(Student* student, string str){
+	if (student)
+		student->learn(str);
 }

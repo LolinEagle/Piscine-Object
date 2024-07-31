@@ -24,7 +24,7 @@ fclean:clean
 re:fclean
 	make all
 
-run:${NAME}
+run:re
 	clear
 	./${NAME}
 

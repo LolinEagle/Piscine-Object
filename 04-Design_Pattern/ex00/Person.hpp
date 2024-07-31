@@ -7,6 +7,7 @@
 
 enum class FormType;
 class Form;
+class SubscriptionToCourseForm;
 class GraduateStudentForm;
 class Room;
 class Classroom;
@@ -36,9 +37,15 @@ private:
 public:
 	Student(string name): Person(name){}
 
+	vector<Course*>	getSubscribedCourse(void){return (_subscribedCourse);}
+
 	void	attendClass(Classroom* classroom);
-	void	exitClass(void){_subscribedCourse.clear();}
+	void	exitClass(Course* course);
+	void	exitAllClass(void){_subscribedCourse.clear();}
+
 	void	graduate(Course* course){course->graduate();}
+	void	subscribedCourse(Course* course);
+	void	learn(string str){cout << "I learn this: " << str << endl;}
 };
 
 class Headmaster: public Staff{
@@ -54,9 +61,12 @@ public:
 	void	receiveForm(Form* form);
 	void	executeForm(void);
 	void	assignProfessorToCourse(Professor* professor, Course* course);
+	void	assignStudentToCourse(Student* student, Course* course);
 
-	GraduateStudentForm*	receiveGraduateStudentForm(void);
-	void					confirmGraduation(GraduateStudentForm* form);
+	SubscriptionToCourseForm*	receiveSubscriptionToCourseForm(void);
+	GraduateStudentForm*		receiveGraduateStudentForm(void);
+	void	confirmAssignCourse(SubscriptionToCourseForm* form);
+	void	confirmGraduation(GraduateStudentForm* form);
 };
 
 class Secretary: public Staff{
@@ -73,9 +83,13 @@ private:
 public:
 	Professor(string name): Staff(name), _currentCourse(NULL){}
 
-	void	assignCourse(Course* course);
+	Course*	getCurrentCourse(void){return (_currentCourse);}
+	void	setCurrentCourse(Course* course){_currentCourse = course;}
+
+	void	assignCourse(Course* course, Headmaster* headmaster);
 	void	doClass(void);
 	void	closeCourse(void);
 	void	graduateStudent(Headmaster* headmaster, Student* student, Course* course);
 	void	fillGraduateStudentForm(GraduateStudentForm* form);
+	void	learnStudent(Student* student, string str);
 };

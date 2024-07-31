@@ -25,6 +25,9 @@ private:
 	Course*	_currentRoom;
 public:
 	Classroom(void): _currentRoom(NULL){}
+	Classroom(Course* course): _currentRoom(course){}
+
+	Course*	getCurrentRoom(void){return (_currentRoom);}
 	void	assignCourse(Course* course){_currentRoom = course;}
 };
 

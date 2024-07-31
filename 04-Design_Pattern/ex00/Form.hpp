@@ -65,12 +65,13 @@ public:
 class SubscriptionToCourseForm: public Form{
 private:
 	Course*		_course;
-	Student*	_student;
+	Professor*	_professor;
 public:
-	SubscriptionToCourseForm(void): Form(FormType::SubscriptionToCourse), _course(NULL), _student(NULL){}
+	SubscriptionToCourseForm(void):
+	Form(FormType::SubscriptionToCourse), _course(NULL), _professor(NULL){}
 
 	void	setCourse(Course* course){_course = course;}
-	void	setStudent(Student* student){_student = student;}
+	void	setProfessor(Professor* professor){_professor = professor;}
 	void	execute(void);
 };
 

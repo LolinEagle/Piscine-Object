@@ -30,12 +30,19 @@ void	NeedCourseCreationForm::execute(void){
 
 void	SubscriptionToCourseForm::execute(void){
 	cout << "Subscription to course" << endl;
-	if (_course && _student)
-		_course->subscribe(_student);
+	if (_professor && _course){
+		if (_professor->getCurrentCourse()) 
+			_professor->getCurrentCourse()->assign(NULL);
+		// You're now assigned to this course.
+		_professor->setCurrentCourse(_course);
+		_course->assign(_professor);
+	}
 }
 
 void	GraduateStudentForm::execute(void){
 	cout << "Graduate student" << endl;
-	if (_student && _course)
+	if (_student && _course){
 		_student->graduate(_course);
+		_student->exitClass(_course);
+	}
 }
