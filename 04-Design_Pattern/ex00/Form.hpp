@@ -9,6 +9,7 @@ enum class FormType{
 	NeedCourseCreation,
 	SubscriptionToCourse,
 	GraduateStudent,
+	StudentJoinCouse,
 };
 
 class Course;
@@ -81,6 +82,19 @@ private:
 	Student*	_student;
 public:
 	GraduateStudentForm(void): Form(FormType::GraduateStudent), _course(NULL), _student(NULL){}
+
+	void	setCourse(Course* course){_course = course;}
+	void	setStudent(Student* student){_student = student;}
+	Course*	getCourse(void){return (_course);}
+	void	execute(void);
+};
+
+class StudentJoinCouseForm: public Form{
+private:
+	Course*		_course;
+	Student*	_student;
+public:
+	StudentJoinCouseForm(void): Form(FormType::StudentJoinCouse), _course(NULL), _student(NULL){}
 
 	void	setCourse(Course* course){_course = course;}
 	void	setStudent(Student* student){_student = student;}

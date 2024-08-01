@@ -28,7 +28,7 @@ void	Room::printOccupant(void){
 		cout << occupants->getName() << endl;
 }
 
-void			SecretarialOffice::addForm(Form* form){
+void	SecretarialOffice::addForm(Form* form){
 	if (find(_archivedForms.begin(), _archivedForms.end(), form) == _archivedForms.end())
 		_archivedForms.push_back(form);
 }

@@ -43,6 +43,11 @@ void	GraduateStudentForm::execute(void){
 	cout << "Graduate student" << endl;
 	if (_student && _course){
 		_student->graduate(_course);
-		_student->exitClass(_course);
+		_student->exitClass(_course);// Leave course
 	}
+}
+
+void	StudentJoinCouseForm::execute(void){
+	if (_student && _course)
+		_course->subscribe(_student);
 }

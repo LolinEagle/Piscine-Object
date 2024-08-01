@@ -23,6 +23,20 @@ void	Student::subscribedCourse(Course* course){
 		_subscribedCourse.push_back(course);
 }
 
+void	Student::lookForNewCourse(Headmaster* headmaster, Course* course){
+	if (!headmaster)
+		return ;
+	// Hello, i want a form to join a course
+	StudentJoinCouseForm* form = headmaster->receiveStudentJoinCouseForm();
+	if (!form)
+		return ;
+	// [Write down information]
+	form->setCourse(course);
+	form->setStudent(this);
+	// Can you confirm the course subscription ?
+	headmaster->confirmCourseSubscription(form);
+}
+
 void	Headmaster::receiveForm(Form* form){
 	if (find(_formToValidate.begin(), _formToValidate.end(), form) == _formToValidate.end())
 		if (form->getSigned() == false) _formToValidate.push_back(form);
@@ -69,6 +83,17 @@ GraduateStudentForm*	Headmaster::receiveGraduateStudentForm(void){
 	));
 }
 
+StudentJoinCouseForm*	Headmaster::receiveStudentJoinCouseForm(void){
+	if (!_secretary)
+		return (NULL);
+	// Headmaster to Secretary : Can i get a join course form ?
+	// Secretary to Headmaster : Take this form
+	// Headmaster to Professor : You need to fill this form.
+	return (dynamic_cast<StudentJoinCouseForm*>(
+		_secretary->createForm(FormType::StudentJoinCouse)
+	));
+}
+
 void	Headmaster::confirmAssignCourse(SubscriptionToCourseForm* form){
 	// [Sign form and execute the course creation]
 	form->setSigned();
@@ -83,22 +108,49 @@ void	Headmaster::confirmGraduation(GraduateStudentForm* form){
 	delete (form);
 }
 
+void	Headmaster::confirmCourseSubscription(StudentJoinCouseForm* form){
+	// [Sign form and execute the course subscription]
+	form->setSigned();
+	form->execute();// It's done, you can attend your class now
+	delete (form);
+}
+
+Classroom*	Headmaster::getNewClassroom(void){
+	if (!_secretary)
+		return (NULL);
+	NeedMoreClassRoomForm*	form = dynamic_cast<NeedMoreClassRoomForm*>(_secretary->createForm(FormType::NeedMoreClassRoom));
+	form->setSigned();
+	form->execute();
+	Classroom*	classroom = form->getClassroom();
+	delete (form);
+	return (classroom);
+}
+
 Form*	Secretary::createForm(FormType formType){
 	Form*	form;
 
-	if (formType == FormType::CourseFinished)
-		form = new CourseFinishedForm();
-	else if (formType == FormType::NeedMoreClassRoom)
-		form = new NeedMoreClassRoomForm();
-	else if (formType == FormType::NeedCourseCreation)
-		form = new NeedCourseCreationForm();
-	else if (formType == FormType::SubscriptionToCourse)
-		form = new SubscriptionToCourseForm();
-	else if (formType == FormType::GraduateStudent)
-		form = new GraduateStudentForm();
-	else
-		return (NULL);
+	switch (formType){
+		case FormType::CourseFinished:
+			form = new CourseFinishedForm(); break;
+		case FormType::NeedMoreClassRoom:
+			form = new NeedMoreClassRoomForm(); break;
+		case FormType::NeedCourseCreation:
+			form = new NeedCourseCreationForm(); break;
+		case FormType::SubscriptionToCourse:
+			form = new SubscriptionToCourseForm(); break;
+		case FormType::GraduateStudent:
+			form = new GraduateStudentForm(); break;
+		case FormType::StudentJoinCouse:
+			form = new StudentJoinCouseForm(); break;
+		default:
+			return (NULL);
+	}
 	return (form);
+}
+
+Professor::~Professor(){
+	if (_classroom)
+		delete (_classroom);
 }
 
 void	Professor::assignCourse(Course* course, Headmaster* headmaster){
@@ -114,9 +166,13 @@ void	Professor::assignCourse(Course* course, Headmaster* headmaster){
 	headmaster->confirmAssignCourse(form);
 }
 
-void	Professor::doClass(void){
-	if (!_currentCourse)
+void	Professor::doClass(Headmaster* headmaster){
+	if (!_currentCourse || !headmaster)
 		return ;
+	if (!_classroom){
+		_classroom = headmaster->getNewClassroom();
+		_classroom->assignCourse(_currentCourse);
+	}
 	cout << _name << " teach course of " << _currentCourse->getName() << endl;
 }
 
@@ -139,6 +195,7 @@ void	Professor::graduateStudent(Headmaster* headmaster, Student* student, Course
 }
 
 void	Professor::learnStudent(Student* student, string str){
+	// [Take note]
 	if (student)
 		student->learn(str);
 }

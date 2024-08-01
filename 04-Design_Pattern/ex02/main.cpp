@@ -14,8 +14,8 @@ int	main(void){
 	headmaster.receiveForm(subscriptionToCourse);
 	cout << headmaster.getFormToValidate().size() << endl;
 
-	Course*						course = new Course("Course");
-	Student*					student = new Student("Student");
+	Course*		course = new Course("Course");
+	Professor*	professor = new Professor("Professor");
 
 	CourseFinishedForm*			courseFinishedForm = dynamic_cast<CourseFinishedForm*>(courseFinished);
 	NeedMoreClassRoomForm*		needMoreClassRoomForm = dynamic_cast<NeedMoreClassRoomForm*>(needMoreClassRoom);
@@ -23,12 +23,12 @@ int	main(void){
 	SubscriptionToCourseForm*	subscriptionToCourseForm = dynamic_cast<SubscriptionToCourseForm*>(subscriptionToCourse);
 
 	subscriptionToCourseForm->setCourse(course);
-	subscriptionToCourseForm->setStudent(student);
+	subscriptionToCourseForm->setProfessor(professor);
 	headmaster.executeForm();
 
 	courseFinishedForm->setCourse(course);
 	courseFinishedForm->execute();
-	delete (student);
+	delete (professor);
 	delete (needMoreClassRoomForm->getClassroom());
 	delete (needCourseCreationForm->getCourse());
 
