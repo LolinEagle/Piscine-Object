@@ -4,6 +4,7 @@
 
 class Student;
 class Professor;
+class Headmaster;
 
 class Course{
 private:
@@ -22,11 +23,24 @@ public:
 	int					getNumberOfClassToGraduate(void){return (_numberOfClassToGraduate);}
 	int					getMaximumNumberOfStudent(void){return (_maximumNumberOfStudent);}
 
-	void	assign(Professor* professor){_responsable = professor;}
+	void	assign(Professor* professor);
+	void	assign(Professor* professor, Headmaster* headmaster);
 	void	subscribe(Student* student);
+	void	unSubscribe(Student* student);
 	void	graduate(void){_numberOfClassToGraduate++;}
 };
 
 enum class Event{
 	RingBell
+};
+
+class Observer{
+private:
+	Professor*			_professor;
+	vector<Student*>	_students;
+	Course*				_course;
+public:
+	Observer(Course* course): _professor(NULL), _course(course){}
+
+	void	executeEvent(Event event, Headmaster* headmaster);
 };

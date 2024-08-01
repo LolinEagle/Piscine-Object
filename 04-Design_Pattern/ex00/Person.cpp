@@ -14,8 +14,10 @@ void	Student::attendClass(Classroom* classroom){
 void	Student::exitClass(Course* course){
 	// Leave course
 	vector<Course*>::iterator it = find(_subscribedCourse.begin(), _subscribedCourse.end(), course);
-	if (it != _subscribedCourse.end())
+	if (it != _subscribedCourse.end()){
+		(*it)->unSubscribe(this);
 		_subscribedCourse.erase(it);
+	}
 }
 
 void	Student::subscribedCourse(Course* course){
@@ -167,7 +169,8 @@ void	Professor::assignCourse(Course* course, Headmaster* headmaster){
 }
 
 void	Professor::doClass(Headmaster* headmaster){
-	if (!_currentCourse || !headmaster)
+	// If _classroom is set headmaster parameter can be NULL
+	if (!_currentCourse || (!_classroom && !headmaster))
 		return ;
 	if (!_classroom){
 		_classroom = headmaster->getNewClassroom();
@@ -177,8 +180,10 @@ void	Professor::doClass(Headmaster* headmaster){
 }
 
 void	Professor::closeCourse(void){
-	if (_currentCourse)
-		delete (_currentCourse);
+	if (_currentCourse){
+		_currentCourse->assign(NULL);
+		_currentCourse = NULL;
+	}
 }
 
 void	Professor::graduateStudent(Headmaster* headmaster, Student* student, Course* course){

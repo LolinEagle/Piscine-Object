@@ -74,6 +74,11 @@ public:
 	void	confirmCourseSubscription(StudentJoinCouseForm* form);
 
 	Classroom*	getNewClassroom(void);
+
+	void	executeEvent(Observer* observer, Event event){
+		if (observer)
+			observer->executeEvent(event, this);
+	}
 };
 
 class Secretary: public Staff{
@@ -94,10 +99,12 @@ public:
 
 	Course*	getCurrentCourse(void){return (_currentCourse);}
 	void	setCurrentCourse(Course* course){_currentCourse = course;}
+	void	setClassroom(Classroom* classroom){_classroom = classroom;}
 
 	void	assignCourse(Course* course, Headmaster* headmaster);
 	void	doClass(Headmaster* headmaster);
 	void	closeCourse(void);
+
 	void	graduateStudent(Headmaster* headmaster, Student* student, Course* course);
 	void	fillGraduateStudentForm(GraduateStudentForm* form);
 	void	learnStudent(Student* student, string str);
