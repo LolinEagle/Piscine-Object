@@ -28,19 +28,18 @@ void	Observer::executeEvent(Event event, Headmaster* headmaster){
 	if (event == Event::RingBell){
 		if (!_course || !headmaster)
 			return ;
-		static bool ringBell = false;
-		if (ringBell == false){
+		if (_ringBell == false){
 			_professor = _course->getResponsable();
 			_students = _course->getStudent();
 			_professor->closeCourse();
 			for (auto students: _students)
 				students->exitClass(_course);
-			ringBell = true;
+			_ringBell = true;
 		} else {
 			_course->assign(_professor, headmaster);
 			for (auto students: _students)
 				_course->subscribe(students);
-			ringBell = false;
+			_ringBell = false;
 		}
 	}
 }

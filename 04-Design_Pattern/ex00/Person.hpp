@@ -59,6 +59,7 @@ public:
 	Headmaster(string name): Staff(name), _secretary(NULL){}
 
 	vector<Form*>	getFormToValidate(void){return (_formToValidate);}
+	Secretary*		getSecretary(void){return (_secretary);}
 	void			setSecretary(Secretary* secretary){_secretary = secretary;}
 
 	void	receiveForm(Form* form);
@@ -74,8 +75,7 @@ public:
 	void	confirmCourseSubscription(StudentJoinCouseForm* form);
 
 	Classroom*	getNewClassroom(void);
-
-	void	executeEvent(Observer* observer, Event event){
+	void		executeEvent(Observer* observer, Event event){
 		if (observer)
 			observer->executeEvent(event, this);
 	}

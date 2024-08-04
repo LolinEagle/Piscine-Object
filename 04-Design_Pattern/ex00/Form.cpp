@@ -38,7 +38,7 @@ void	SubscriptionToCourseForm::execute(void){
 }
 
 void	GraduateStudentForm::execute(void){
-	cout << "Graduate student" << endl;
+	cout << "Graduate " << _student->getName() << " for " << _course->getName() << endl;
 	if (_student && _course){
 		_student->graduate(_course);
 		_student->exitClass(_course);// Leave course
