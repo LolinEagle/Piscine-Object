@@ -69,29 +69,29 @@ SubscriptionToCourseForm*	Headmaster::receiveSubscriptionToCourseForm(void){
 	// Headmaster to Secretary : Can i get a new course form ?
 	// Secretary to Headmaster : Here, take this form
 	// Headmaster to Professor : You need to fill this form
-	return (dynamic_cast<SubscriptionToCourseForm*>(
+	return (static_cast<SubscriptionToCourseForm*>(
 		_secretary->createForm(FormType::SubscriptionToCourse)
 	));
 }
 
-GraduateStudentForm*	Headmaster::receiveGraduateStudentForm(void){
+GraduateStudentForm*		Headmaster::receiveGraduateStudentForm(void){
 	if (!_secretary)
 		return (NULL);
 	// Headmaster to Secretary : I need a form for graduation
 	// Secretary to Headmaster : Here, take this form
 	// Headmaster to Professor : Can you fill this form ?
-	return (dynamic_cast<GraduateStudentForm*>(
+	return (static_cast<GraduateStudentForm*>(
 		_secretary->createForm(FormType::GraduateStudent)
 	));
 }
 
-StudentJoinCouseForm*	Headmaster::receiveStudentJoinCouseForm(void){
+StudentJoinCouseForm*		Headmaster::receiveStudentJoinCouseForm(void){
 	if (!_secretary)
 		return (NULL);
 	// Headmaster to Secretary : Can i get a join course form ?
 	// Secretary to Headmaster : Take this form
 	// Headmaster to Professor : You need to fill this form.
-	return (dynamic_cast<StudentJoinCouseForm*>(
+	return (static_cast<StudentJoinCouseForm*>(
 		_secretary->createForm(FormType::StudentJoinCouse)
 	));
 }
@@ -120,12 +120,19 @@ void	Headmaster::confirmCourseSubscription(StudentJoinCouseForm* form){
 Classroom*	Headmaster::getNewClassroom(void){
 	if (!_secretary)
 		return (NULL);
-	NeedMoreClassRoomForm*	form = dynamic_cast<NeedMoreClassRoomForm*>(_secretary->createForm(FormType::NeedMoreClassRoom));
+	NeedMoreClassRoomForm*	form = static_cast<NeedMoreClassRoomForm*>(
+		_secretary->createForm(FormType::NeedMoreClassRoom)
+	);
 	form->setSigned();
 	form->execute();
 	Classroom*	classroom = form->getClassroom();
 	delete (form);
 	return (classroom);
+}
+
+void	Headmaster::executeEvent(Observer* observer, Event event){
+	if (observer)
+		observer->executeEvent(event, this);
 }
 
 Form*	Secretary::createForm(FormType formType){

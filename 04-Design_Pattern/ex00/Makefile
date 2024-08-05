@@ -1,6 +1,6 @@
 NAME		=	ex00.out
 LIB			=	ex00.a
-SRC			=	Course.cpp Form.cpp Person.cpp Room.cpp
+SRC			=	Course.cpp Form.cpp Observer.cpp Person.cpp Room.cpp
 CPP			=	c++
 CPPFLAGS	=	-Wall -Wextra -Werror -MMD
 AR			=	ar -r

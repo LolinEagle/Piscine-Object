@@ -29,19 +29,3 @@ public:
 	void	unSubscribe(Student* student);
 	void	graduate(void){_numberOfClassToGraduate++;}
 };
-
-enum class Event{
-	RingBell
-};
-
-class Observer{
-private:
-	Professor*			_professor;
-	vector<Student*>	_students;
-	Course*				_course;
-	bool 				_ringBell;
-public:
-	Observer(Course* course): _professor(NULL), _course(course), _ringBell(false){}
-
-	void	executeEvent(Event event, Headmaster* headmaster);
-};

@@ -3,13 +3,16 @@
 #include <Datas.hpp>
 #include <Course.hpp>
 #include <Form.hpp>
+#include <Observer.hpp>
 #include <Room.hpp>
 
 enum class FormType;
+enum class Event;
 class Form;
 class SubscriptionToCourseForm;
 class GraduateStudentForm;
 class StudentJoinCouseForm;
+class Observer;
 class Room;
 class Classroom;
 class Headmaster;
@@ -75,10 +78,7 @@ public:
 	void	confirmCourseSubscription(StudentJoinCouseForm* form);
 
 	Classroom*	getNewClassroom(void);
-	void		executeEvent(Observer* observer, Event event){
-		if (observer)
-			observer->executeEvent(event, this);
-	}
+	void		executeEvent(Observer* observer, Event event);
 };
 
 class Secretary: public Staff{
