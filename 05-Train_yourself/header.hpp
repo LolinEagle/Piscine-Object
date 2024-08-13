@@ -1,6 +1,9 @@
 #pragma once
 
+#include <algorithm>
+#include <fstream>
 #include <iostream>
+#include <sstream>
 #include <vector>
 
 #define RESET	"\33[00m"
@@ -12,5 +15,11 @@
 #define MAGENTA	"\33[35m"
 #define CYAN	"\33[36m"
 #define ENDL	RESET << endl;
+
+enum Event{
+	Riot,
+	PassengersDiscomfort,
+	CantHappen,
+};
 
 using namespace std;

@@ -1,5 +1,10 @@
 NAME		=	train.out
-SRC			=	main.cpp Place/City.cpp Place/Rail.cpp Train/Overtaking.cpp Train/Train.cpp
+SRC			=	main.cpp\
+				Place/City.cpp\
+				Place/Node.cpp\
+				Place/Rail.cpp\
+				Train/Overtaking.cpp\
+				Train/Train.cpp
 CPP			=	c++
 CPPFLAGS	=	-Wall -Wextra -Werror -MMD
 RM			=	rm -rf
@@ -24,7 +29,7 @@ re:fclean
 
 run:all
 	clear
-	./${NAME}
+	valgrind ./${NAME}
 
 ${OBJ_PATH}%.o:${SRC_PATH}%.cpp
 	${CPP} ${CPPFLAGS} ${INC} -c $< -o $@

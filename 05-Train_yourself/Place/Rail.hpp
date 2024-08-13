@@ -7,11 +7,13 @@ class City;
 
 class Rail{
 private:
-	City*		_pointA;
-	City*		_pointB;
-	uint32_t	_maxSpeed;
+	City*	_pointA;
+	City*	_pointB;
+	float	_maxSpeed;
+	float	_length;
 public:
-	Rail(uint32_t maxSpeed): _pointA(NULL), _pointB(NULL), _maxSpeed(maxSpeed){}
+	Rail(float maxSpeed, float length):
+	_pointA(NULL), _pointB(NULL), _maxSpeed(maxSpeed), _length(length){}
 	~Rail(){}
 
 	City*	getPoint(char c);

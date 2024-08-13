@@ -1,5 +1,6 @@
 #include <City.hpp>
 
 void	City::addRail(Rail* rail){
-	_rails.push_back(rail);
+    if (find(_rails.begin(), _rails.end(), rail) == _rails.end())
+        _rails.push_back(rail);
 }
