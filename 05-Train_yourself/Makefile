@@ -1,8 +1,8 @@
 NAME		=	train.out
 SRC			=	main.cpp\
 				Place/City.cpp\
-				Place/Node.cpp\
 				Place/Rail.cpp\
+				Place/RailNode.cpp\
 				Train/Overtaking.cpp\
 				Train/Train.cpp
 CPP			=	c++

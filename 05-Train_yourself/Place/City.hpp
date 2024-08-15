@@ -1,12 +1,11 @@
 #pragma once
 
-#include <header.hpp>
 #include <Rail.hpp>
 
 class Rail;
 
 class City{
-private:
+protected:
 	string			_name;
 	vector<Rail*>	_rails;
 public:
@@ -17,4 +16,5 @@ public:
 	vector<Rail*>	getRails(void){return (_rails);}
 
 	void	addRail(Rail* rail);
+	void	event(Event e);
 };
