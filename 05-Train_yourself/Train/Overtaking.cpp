@@ -59,10 +59,10 @@ void	Overtaking::inputRailNetwork(const string &filepath){
 			// Event
 		} else if (token == "Rail"){
 			string	a, b;
-			float	maxSpeed;
+			float	length;
 			iss >> a >> b >> token;
-			maxSpeed = stof(token);
-			Rail*	rail = new Rail(maxSpeed, 1.f, getCity(a), getCity(b));
+			length = stof(token);
+			Rail*	rail = new Rail(MAX_SPEED, length, getCity(a), getCity(b));
 			addRail(rail);
 			getCity(a)->addRail(rail);
 			getCity(b)->addRail(rail);

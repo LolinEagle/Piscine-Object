@@ -16,3 +16,11 @@ void	City::event(Event e){
 		throw (runtime_error("Bad event"));
 	}
 }
+
+Rail*	City::getRailToCity(City* city){
+	for (Rail* rail: _rails){
+		if (rail->getOtherPoint(this) == city)
+			return (rail);
+	}
+	return (NULL);
+}

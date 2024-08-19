@@ -11,10 +11,10 @@ int	main(void){
 	cout << BLUE << "Overtaking number of Trains : " << overtaking.getTrains().size() << ENDL;
 	cout << BLUE << "Overtaking number of Rails : " << overtaking.getRails().size() << ENDL;
 	cout << MAGENTA << "------------------ TrainAB1 ------------------" << ENDL;
-	overtaking.getTrain("TrainAB1")->pathfinding(4);
+	overtaking.getTrain("TrainAB1")->pathfinding();
 	cout << MAGENTA << "------------------ TrainAC -------------------" << ENDL;
-	overtaking.getTrain("TrainAC")->pathfinding(4);
+	overtaking.getTrain("TrainAC")->pathfinding();
 	cout << MAGENTA << "------------------ TrainAB2 ------------------" << ENDL;
-	overtaking.getTrain("TrainAB2")->pathfinding(4);
+	overtaking.getTrain("TrainAB2")->pathfinding();
 	return (0);
 }

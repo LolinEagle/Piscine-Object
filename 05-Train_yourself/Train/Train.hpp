@@ -17,7 +17,7 @@ public:
 
 	string	getName(void){return (_name);}
 
-	void	pathfindingRecursive(uint recursive, float distance, vector<City*> nodes, City* pos);
-	void	pathfinding(uint recursive);
+	void	pathfindingRecursive(uint recursive, vector<City*> nodes, City* pos);
+	void	pathfinding(void);
 	void	printAll(void);
 };

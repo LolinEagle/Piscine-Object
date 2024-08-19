@@ -17,4 +17,5 @@ public:
 
 	void	addRail(Rail* rail);
 	void	event(Event e);
+	Rail*	getRailToCity(City* city);
 };

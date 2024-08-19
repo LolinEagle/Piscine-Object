@@ -15,6 +15,8 @@
 #define MAGENTA	"\33[35m"
 #define CYAN	"\33[36m"
 #define ENDL	RESET << endl;
+#define MAX_RECURSIVE	16
+#define MAX_SPEED		574.8f
 
 enum Event{
 	Riot,

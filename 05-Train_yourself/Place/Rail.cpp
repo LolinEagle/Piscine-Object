@@ -42,3 +42,9 @@ City*	Rail::getOtherPoint(City* point){
 	throw (runtime_error("Rail::getOtherPoint(City* point)"));
 	return (NULL);
 }
+
+bool	Rail::havePoint(City* city){
+	if (city == _pointA || city == _pointB)
+		return (true);
+	return (false);
+}

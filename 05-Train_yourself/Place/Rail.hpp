@@ -25,4 +25,5 @@ public:
 
 	void	event(Event e);
 	City*	getOtherPoint(City* point);
+	bool	havePoint(City* city);
 };
