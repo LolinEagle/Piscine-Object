@@ -27,8 +27,6 @@ void	Rail::event(Event e){
 
 	} else if (e == Event::PassengersDiscomfort){
 
-	} else if (e == Event::CantHappen){
-
 	} else {
 		throw (runtime_error("Bad event"));
 	}

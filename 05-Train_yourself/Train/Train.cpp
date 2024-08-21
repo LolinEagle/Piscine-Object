@@ -1,9 +1,9 @@
 #include <Train.hpp>
 
-Train::Train(string name, float maxAcceleration, float maxBrake, City* departure,
-City* arrival, string departureHour):
-_name(name), _maxAcceleration(maxAcceleration), _maxBrake(maxBrake),
-_departure(departure), _arrival(arrival), _departureHour(departureHour){
+Train::Train(string name, float maxAcceleration, float maxBrake, float departureHour,
+City* departure, City* arrival):
+_name(name), _maxAcceleration(maxAcceleration), _maxBrake(maxBrake), _departureHour(departureHour),
+_departure(departure), _arrival(arrival), _time(0.f){
 	static uint	id = 0;
 
 	_id = id++;
@@ -14,13 +14,18 @@ void	Train::pathfindingRecursive(uint recursive, vector<City*> nodes, City* pos)
 	nodes.push_back(pos);
 
 	// If arrival
-	if (!recursive || pos == _arrival){
+	if (!recursive)
+		return ;
+	if (pos == _arrival){
 		float	time = 0.f;
 		for (size_t i = 1; i < nodes.size(); i++){
 			Rail*	rail = nodes[i - 1]->getRailToCity(nodes[i]);
 			float	speed = MAX_SPEED;
-
 			time += rail->getLength() / speed;
+		}
+		if (_nodes.size() == 0 || time < _time){
+			_nodes = nodes;
+			_time = time;
 		}
 		return ;
 	}
@@ -38,14 +43,22 @@ void	Train::pathfindingRecursive(uint recursive, vector<City*> nodes, City* pos)
 	}
 }
 
+float	getMinute(float hour){
+	return (trunc((hour - trunc(hour)) / 0.0166667f));
+}
+
 void	Train::pathfinding(void){
 	if (!_departure || !_arrival)
 		return ;
-
 	uint			recursive = MAX_RECURSIVE;
 	vector<City*>	nodes;
-
 	pathfindingRecursive(recursive, nodes, _departure);
+	cout << "Nodes :";
+	for (City* node: _nodes)
+		cout << ' ' << node->getName();
+	cout << "\nDeparture Hour : " << trunc(_departureHour) << 'h' << getMinute(_departureHour) <<
+			"\nArrival Hour : " << trunc(_departureHour + _time) << 'h' << getMinute(_departureHour  + _time) <<
+			"\nTime : " << trunc(_time) << 'h' << getMinute(_time) << endl;
 }
 
 void	Train::printAll(void){

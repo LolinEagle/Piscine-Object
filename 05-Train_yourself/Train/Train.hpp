@@ -6,13 +6,15 @@ class Train{
 private:
 	string	_name;
 	uint	_id;
-	float	_maxAcceleration, _maxBrake;
+	float	_maxAcceleration, _maxBrake, _departureHour;
 	City*	_departure;
 	City*	_arrival;
-	string	_departureHour;
+
+	vector<City*>	_nodes;
+	float			_time;
 public:
-	Train(string name, float maxAcceleration, float maxBrake, City* departure,
-	City* arrival, string departureHour);
+	Train(string name, float maxAcceleration, float maxBrake, float departureHour,
+	City* departure, City* arrival);
 	~Train(){}
 
 	string	getName(void){return (_name);}

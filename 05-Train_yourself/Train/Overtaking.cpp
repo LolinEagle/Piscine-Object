@@ -55,8 +55,43 @@ void	Overtaking::inputRailNetwork(const string &filepath){
 				addCity(node);
 			}
 		} else if (token == "Event"){
-			iss >> token;
+			s_event	e;
+
 			// Event
+			iss >> token;
+			if (token.find("Riot") != string::npos) e.event = Event::Riot;
+			else if (token.find("Passenger's_Discomfort")) e.event = Event::PassengersDiscomfort;
+			else continue ;
+
+			// Chance
+			iss >> token;
+			e.chance = stof(token);
+			if (e.chance == 0.f) continue ;
+
+			// Time
+			iss >> token;
+			if (token.find('m') != string::npos){
+				size_t	pos = token.find('m');
+				string	sub = token.substr(0, pos);
+				e.time = stof(sub) * 0.0166667f;
+			} else if (token.find('h') != string::npos){
+				size_t	pos = token.find('h');
+				string	sub = token.substr(0, pos);
+				e.time = stof(sub);
+			} else if (token.find('d') != string::npos){
+				size_t	pos = token.find('d');
+				string	sub = token.substr(0, pos);
+				e.time = stof(sub) * 24;
+			} else {
+				continue ;
+			}
+
+			// Where
+			iss >> token;
+			e.where = getCity(token);
+			if (e.where == NULL) continue ;
+
+			_event.push_back(e);
 		} else if (token == "Rail"){
 			string	a, b;
 			float	length;
@@ -80,8 +115,8 @@ void	Overtaking::inputTrainComposition(const string &filepath){
 		istringstream	iss(line);
 		string			token;
 
-		string	name, hour;
-		float	maxAcceleration, maxBrake;
+		string	name;
+		float	maxAcceleration, maxBrake, hour;
 		City*	departure;
 		City*	arrival;
 
@@ -98,9 +133,14 @@ void	Overtaking::inputTrainComposition(const string &filepath){
 		arrival = getCity(token);// 5. the arrival train station
 		if (arrival == NULL)
 			cout << YELLOW << "Warning : " << name << " arrival is not set" << ENDL;
-		iss >> hour;// 6. the hour of departure
+		iss >> token;
+		size_t	pos = token.find('h');
+		string	sub = token.substr(0, pos);
+		hour = stof(sub);
+		sub = token.substr(pos + 1);
+		hour += stof(sub) * 0.0166667f;// 6. the hour of departure
 	
-		Train*	train = new Train(name, maxAcceleration, maxBrake, departure, arrival, hour);
+		Train*	train = new Train(name, maxAcceleration, maxBrake, hour, departure, arrival);
 		addTrain(train);
 	}
 }

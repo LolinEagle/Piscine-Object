@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -16,12 +17,11 @@
 #define CYAN	"\33[36m"
 #define ENDL	RESET << endl;
 #define MAX_RECURSIVE	16
-#define MAX_SPEED		574.8f
+#define MAX_SPEED		80.f
 
 enum Event{
 	Riot,
 	PassengersDiscomfort,
-	CantHappen,
 };
 
 using namespace std;
