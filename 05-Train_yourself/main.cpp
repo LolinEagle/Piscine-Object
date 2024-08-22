@@ -2,6 +2,12 @@
 #include <Overtaking.hpp>
 #include <Train.hpp>
 
+void	train(Train* train){
+	cout << "Train : " << train->getName() << endl;
+	train->pathfinding();
+	train->execute();
+}
+
 int	main(void){
 	Overtaking	overtaking;
 
@@ -10,11 +16,12 @@ int	main(void){
 	cout << BLUE << "Overtaking number of Citys / Nodes : " << overtaking.getCitys().size() << ENDL;
 	cout << BLUE << "Overtaking number of Trains : " << overtaking.getTrains().size() << ENDL;
 	cout << BLUE << "Overtaking number of Rails : " << overtaking.getRails().size() << ENDL;
+
 	cout << MAGENTA << "------------------ TrainAB1 ------------------" << ENDL;
-	overtaking.getTrain("TrainAB1")->pathfinding();
+	train(overtaking.getTrain("TrainAB1"));
 	cout << MAGENTA << "------------------ TrainAC -------------------" << ENDL;
-	overtaking.getTrain("TrainAC")->pathfinding();
+	train(overtaking.getTrain("TrainAC"));
 	cout << MAGENTA << "------------------ TrainAB2 ------------------" << ENDL;
-	overtaking.getTrain("TrainAB2")->pathfinding();
+	train(overtaking.getTrain("TrainAB2"));
 	return (0);
 }

@@ -23,7 +23,6 @@ public:
 	float	getLength(void){return (_length);};
 	void	setPoint(City* point);
 
-	void	event(Event e);
 	City*	getOtherPoint(City* point);
 	bool	havePoint(City* city);
 };

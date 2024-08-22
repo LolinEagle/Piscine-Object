@@ -9,10 +9,10 @@ Node RailNodeE
 Node RailNodeF
 Node RailNodeG
 Event Riot 0.05 48h CityA
-Event "Passenger's_Discomfort" 0.2 30m CityA
-Event "Passenger's_Discomfort" 0.2 30m CityB
-Event "Passenger's_Discomfort" 0.2 30m CityC
-Event "Can't_happen" 0 356d CityA
+Event Passenger's_Discomfort 0.2 30m CityA
+Event Passenger's_Discomfort 0.2 30m CityB
+Event Passenger's_Discomfort 0.2 30m CityC
+Event Can't_happen 0 356d CityA
 Rail CityA RailNodeA 15.0
 Rail RailNodeA RailNodeB 20.0
 Rail RailNodeB RailNodeC 13.0

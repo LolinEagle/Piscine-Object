@@ -16,6 +16,5 @@ public:
 	vector<Rail*>	getRails(void){return (_rails);}
 
 	void	addRail(Rail* rail);
-	void	event(Event e);
 	Rail*	getRailToCity(City* city);
 };

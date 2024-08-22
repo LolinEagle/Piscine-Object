@@ -22,16 +22,6 @@ void	Rail::setPoint(City* point){
 	}
 }
 
-void	Rail::event(Event e){
-	if (e == Event::Riot){
-
-	} else if (e == Event::PassengersDiscomfort){
-
-	} else {
-		throw (runtime_error("Bad event"));
-	}
-}
-
 City*	Rail::getOtherPoint(City* point){
 	if (point == _pointA)
 		return (_pointB);

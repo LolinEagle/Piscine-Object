@@ -59,14 +59,17 @@ void	Overtaking::inputRailNetwork(const string &filepath){
 
 			// Event
 			iss >> token;
-			if (token.find("Riot") != string::npos) e.event = Event::Riot;
-			else if (token.find("Passenger's_Discomfort")) e.event = Event::PassengersDiscomfort;
-			else continue ;
+			if (token.find("Riot") != string::npos)
+				e.event = Event::Riot;
+			else if (token.find("Passenger's_Discomfort") != string::npos)
+				e.event = Event::PassengersDiscomfort;
+			else
+				continue ;
 
 			// Chance
 			iss >> token;
 			e.chance = stof(token);
-			if (e.chance == 0.f) continue ;
+			if (e.chance <= 0.f) continue ;
 
 			// Time
 			iss >> token;

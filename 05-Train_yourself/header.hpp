@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -17,7 +18,7 @@
 #define CYAN	"\33[36m"
 #define ENDL	RESET << endl;
 #define MAX_RECURSIVE	16
-#define MAX_SPEED		80.f
+#define MAX_SPEED		120.f
 
 enum Event{
 	Riot,
