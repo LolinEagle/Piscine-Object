@@ -3,7 +3,6 @@
 #include <Train.hpp>
 
 void	train(Train* train){
-	cout << "Train : " << train->getName() << endl;
 	train->pathfinding();
 	train->execute();
 }

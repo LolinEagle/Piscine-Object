@@ -3,15 +3,15 @@
 #include <RailNode.hpp>
 #include <Train.hpp>
 
-struct s_event{
-	Event	event;
-	float	chance;
-	float	time;
-	City*	where;
-};
-
 class Overtaking{
 private:
+	struct s_event{
+		Event	event;
+		float	chance;
+		float	time;
+		City*	where;
+	};
+
 	vector<City*>	_citys;
 	vector<Train*>	_trains;
 	vector<Rail*>	_rails;
