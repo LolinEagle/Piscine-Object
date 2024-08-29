@@ -1,6 +1,9 @@
 #pragma once
 
 #include <City.hpp>
+#include <Overtaking.hpp>
+
+class Overtaking;
 
 class Train{
 private:
@@ -9,6 +12,7 @@ private:
 		MaintainingSpeed,
 		Bracking,
 		Stopped,
+		PassengerDiscomfort,
 	};
 
 	string	_name;
@@ -19,9 +23,10 @@ private:
 
 	vector<City*>	_nodes;
 	float			_time;
+	Overtaking*		_overtaking;
 public:
 	Train(string name, float maxAcceleration, float maxBrake, float departureHour,
-	City* departure, City* arrival);
+	City* departure, City* arrival, Overtaking* overtaking);
 	~Train(){}
 
 	string			getName(void){return (_name);}

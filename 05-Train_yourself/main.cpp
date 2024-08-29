@@ -2,7 +2,8 @@
 #include <Overtaking.hpp>
 #include <Train.hpp>
 
-void	train(Train* train){
+void	output(Train* train){
+	cout << MAGENTA << "------------------------------------------------------------------" << ENDL;
 	train->pathfinding();
 	train->execute();
 }
@@ -12,15 +13,26 @@ int	main(void){
 
 	overtaking.inputRailNetwork("RailNetwork");
 	overtaking.inputTrainComposition("TrainComposition");
-	cout << BLUE << "Overtaking number of Citys / Nodes : " << overtaking.getCitys().size() << ENDL;
-	cout << BLUE << "Overtaking number of Trains : " << overtaking.getTrains().size() << ENDL;
-	cout << BLUE << "Overtaking number of Rails : " << overtaking.getRails().size() << ENDL;
+	cout << BLUE << "Number of Citys / Nodes : " << overtaking.getCitys().size() << ENDL;
+	cout << BLUE << "Number of Trains : " << overtaking.getTrains().size() << ENDL;
+	cout << BLUE << "Number of Rails : " << overtaking.getRails().size() << ENDL;
 
-	cout << MAGENTA << "------------------ TrainAB1 ------------------" << ENDL;
-	train(overtaking.getTrain("TrainAB1"));
-	cout << MAGENTA << "------------------ TrainAC -------------------" << ENDL;
-	train(overtaking.getTrain("TrainAC"));
-	cout << MAGENTA << "------------------ TrainAB2 ------------------" << ENDL;
-	train(overtaking.getTrain("TrainAB2"));
+	Train*	ab1 = overtaking.getTrain("TrainAB1");
+	Train*	ac1 = overtaking.getTrain("TrainAC");
+	Train*	ab2 = overtaking.getTrain("TrainAB2");
+	bool	a = true, b = true, c = true;
+
+	srand(time(NULL));
+	for (auto e: overtaking.getEvents()){
+		if (e.event == 0 && e.where->getName() == "CityA" && rand() % 100 < e.chance * 100)
+			a = false;
+		else if (e.event == 0 && e.where->getName() == "CityB" && rand() % 100 < e.chance * 100)
+			b = false;
+		else if (e.event == 0 && e.where->getName() == "CityC" && rand() % 100 < e.chance * 100)
+			c = false;
+	}
+	if (a && b) output(ab1);
+	if (a && c) output(ac1);
+	if (a && b) output(ab2);
 	return (0);
 }

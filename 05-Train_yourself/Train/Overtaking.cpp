@@ -94,7 +94,7 @@ void	Overtaking::inputRailNetwork(const string &filepath){
 			e.where = getCity(token);
 			if (e.where == NULL) continue ;
 
-			_event.push_back(e);
+			_events.push_back(e);
 		} else if (token == "Rail"){
 			string	a, b;
 			float	length;
@@ -143,7 +143,8 @@ void	Overtaking::inputTrainComposition(const string &filepath){
 		sub = token.substr(pos + 1);
 		hour += stof(sub) * 0.0166667f;// 6. the hour of departure
 	
-		Train*	train = new Train(name, maxAcceleration, maxBrake, hour, departure, arrival);
+		Train*	train = new Train(name, maxAcceleration, maxBrake, hour, departure, arrival, this);
 		addTrain(train);
 	}
 }
+

@@ -1,9 +1,11 @@
 #include <Train.hpp>
 
 Train::Train(string name, float maxAcceleration, float maxBrake, float departureHour,
-City* departure, City* arrival):
+City* departure, City* arrival, Overtaking* overtaking):
 _name(name), _maxAcceleration(maxAcceleration), _maxBrake(maxBrake), _departureHour(departureHour),
-_departure(departure), _arrival(arrival), _time(0.f){
+_departure(departure), _arrival(arrival), _time(0.f), _overtaking(overtaking){
+	if (_overtaking == NULL)
+		throw (runtime_error("Train::_overtaking can't be NULL"));
 	static uint	id = 0;
 
 	_id = id++;
@@ -57,15 +59,18 @@ void	Train::pathfinding(void){
 void	Train::output(float hour, State& state, size_t i, float d){
 	// 1. The time since start
 	cout << setfill('0') << setw(2) << trunc(hour) << 'h' << setw(2) << getMinute(hour) << " - " <<
-			_nodes[i - 1]->getName() << "->" <<// 2. The node where the train started
-			_nodes[i]->getName() << " - " <<// 3. The node where the train will arrive
-			d << "km - ";// 4. The distance left to the final destination of the travel
+			_nodes[i]->getName() << "->" <<// 2. The node where the train started
+			_nodes[i + 1]->getName() << " - ";// 3. The node where the train will arrive
+
+	// 4. The distance left to the final destination of the travel
+	cout << fixed << setprecision(2) << d << "km - " << setprecision(0);
 
 	// 5. An indication of what the train is doing
-	if (state == State::SpeedingUp) cout << "Speeding up - ";
-	else if (state == State::MaintainingSpeed) cout << "Maintaining speed - ";
+	if (state == State::SpeedingUp) cout << "Speed up - ";
+	else if (state == State::MaintainingSpeed) cout << "Maintain - ";
 	else if (state == State::Bracking) cout << "Bracking - ";
 	else if (state == State::Stopped) cout << "Stopped - ";
+	else if (state == State::PassengerDiscomfort) cout << "Discomfort - ";
 	else throw (runtime_error("Train::output(void) : Bad State"));
 
 	// 6. A graph, representing the rail state, from the starting node to the destination node
@@ -75,68 +80,64 @@ void	Train::output(float hour, State& state, size_t i, float d){
 	for (size_t j = 0; j + 1 < _nodes.size(); j++){
 		Rail*	rail = _nodes[j]->getRailToCity(_nodes[j + 1]);
 		for (float km = 0.f; km < rail->getLength(); km += 1.f, kmTotal -= 1.f){
-			if (kmTotal >= d && kmTotal < d + 1.f) cout << 'O';
+			if (kmTotal > d - 1.f && kmTotal <= d) cout << 'O';
 			else cout << '.';
 		}
 		cout << 'X';
 	}
-	cout << endl;
+	if (d <= 0.f) cout << 'O' << endl;
+	else  cout << '.' << endl;
 }
 
 void	Train::execute(void){
-	cout << "Train : " << _name <<
-			"\nEstimated optimal travel time : " << trunc(_time) << 'h' << getMinute(_time) << endl;
+	float	dist, distLeft, sec, time = _departureHour;
+	State	state;
+	auto	events = _overtaking->getEvents();
 
-	float	hour = _departureHour;
-	State	state = State::SpeedingUp;
+	cout << "Train : " << _name << "\nEstimated optimal travel time : " <<
+		trunc(_time) << 'h' << getMinute(_time) << endl;
+	for (size_t i = 0; i + 1 < _nodes.size(); i++){
+		// Distance left
+		distLeft = 0.f;
+		for (size_t j = i; j + 1 < _nodes.size(); j++)
+			distLeft += _nodes[j]->getRailToCity(_nodes[j + 1])->getLength();
 
-	for (size_t i = 1; i < _nodes.size(); i++){
-		// Distance
-		float	d = 0.f;
-		for (size_t j = i; j < _nodes.size(); j++){
-			Rail* rail = _nodes[j - 1]->getRailToCity(_nodes[j]);
-			d += rail->getLength();
+		// Stopped
+		for (auto e: events){
+			if (e.event == 1 && e.where == _nodes[i] && rand() % 100 < e.chance * 100){
+				state = State::PassengerDiscomfort;
+				output(time, state, i, distLeft);
+				time += e.time;
+			}
 		}
 
-		// Output
-		output(hour, state, i, d);
-
-		// Time
-		Rail*	rail = _nodes[i - 1]->getRailToCity(_nodes[i]);// Get rail
-		hour += rail->getLength() / MAX_SPEED;// Add time
-
-		// Speed
-		if (state == State::SpeedingUp){
-			float dist = 0.f, sec = 0.f;
-			for (float speed = 0.f; speed < MAX_SPEED; sec += 1.f){
-				speed += _maxAcceleration;
-				dist += speed / 3600.f;
-			}
-
-			state = State::MaintainingSpeed;
-			output(hour - (rail->getLength() / MAX_SPEED) + (sec / 3600.f), state, i, d - dist);
-		} else if (state == State::MaintainingSpeed){
-			float dist = 0.f, sec = 0.f;
-			for (float speed = MAX_SPEED; speed > 0.f; sec += 1.f){
-				speed -= _maxBrake;
-				dist += speed / 3600.f;
-			}
-
-			if (i + 1 >= _nodes.size()){
-				state = State::Bracking;
-				output(hour - (sec / 3600.f), state, i, 0.f + dist);
-			}
-		} else if (state == State::Bracking){
-			output(hour, state, _nodes.size(), 0.f);
-		} else if (state == State::Stopped){
-			output(hour, state, _nodes.size(), 0.f);
-		} else {
-			throw (runtime_error("Train::execute(void) : Bad State"));
+		// Speeding up & Maintaining speed
+		state = State::SpeedingUp;
+		output(time, state, i, distLeft);
+		dist = 0.f, sec = 0.f;
+		for (float speed = 0.f; speed < MAX_SPEED; sec += 1.f){
+			speed += _maxAcceleration;
+			dist += speed / 3600.f;
 		}
+		state = State::MaintainingSpeed;
+		output(time + (sec / 3600.f), state, i, distLeft - dist);
+
+		// Time stamp & Distance left
+		float	railLength = _nodes[i]->getRailToCity(_nodes[i + 1])->getLength();
+		time += railLength / MAX_SPEED;
+		distLeft -= railLength;
+
+		// Bracking
+		dist = 0.f, sec = 0.f;
+		for (float speed = MAX_SPEED; speed > 0.f; sec += 1.f){
+			speed -= _maxBrake;
+			dist += speed / 3600.f;
+		}
+		state = State::Bracking;
+		output(time - (sec / 3600.f), state, i + 1, distLeft + dist);
 	}
-
 	state = State::Stopped;
-	output(hour, state, _nodes.size(), 0.f);
+	output(time, state, _nodes.size() - 1, 0.f);
 }
 
 void	Train::printAll(void){

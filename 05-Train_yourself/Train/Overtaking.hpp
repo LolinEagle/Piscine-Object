@@ -3,6 +3,8 @@
 #include <RailNode.hpp>
 #include <Train.hpp>
 
+class Train;
+
 class Overtaking{
 private:
 	struct s_event{
@@ -15,7 +17,7 @@ private:
 	vector<City*>	_citys;
 	vector<Train*>	_trains;
 	vector<Rail*>	_rails;
-	vector<s_event>	_event;
+	vector<s_event>	_events;
 public:
 	Overtaking(void){}
 	~Overtaking();
@@ -25,6 +27,7 @@ public:
 	vector<City*>	getCitys(void){return (_citys);}
 	vector<Train*>	getTrains(void){return (_trains);}
 	vector<Rail*>	getRails(void){return (_rails);}
+	vector<s_event>	getEvents(void){return (_events);}
 	void			setCitys(vector<City*> citys){_citys = citys;}
 	void			setTrains(vector<Train*> trains){_trains = trains;}
 	void			setRails(vector<Rail*> rails){_rails = rails;}
