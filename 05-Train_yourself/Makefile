@@ -3,6 +3,7 @@ SRC			=	main.cpp\
 				Place/City.cpp\
 				Place/Rail.cpp\
 				Place/RailNode.cpp\
+				Train/Facade.cpp\
 				Train/Overtaking.cpp\
 				Train/Train.cpp
 CPP			=	c++

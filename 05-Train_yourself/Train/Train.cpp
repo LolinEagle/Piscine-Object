@@ -1,16 +1,5 @@
 #include <Train.hpp>
 
-Train::Train(string name, float maxAcceleration, float maxBrake, float departureHour,
-City* departure, City* arrival, Overtaking* overtaking):
-_name(name), _maxAcceleration(maxAcceleration), _maxBrake(maxBrake), _departureHour(departureHour),
-_departure(departure), _arrival(arrival), _time(0.f), _overtaking(overtaking){
-	if (_overtaking == NULL)
-		throw (runtime_error("Train::_overtaking can't be NULL"));
-	static uint	id = 0;
-
-	_id = id++;
-}
-
 void	Train::pathfindingRecursive(uint recursive, vector<City*> nodes, City* pos){
 	recursive--;
 	nodes.push_back(pos);
@@ -44,16 +33,8 @@ void	Train::pathfindingRecursive(uint recursive, vector<City*> nodes, City* pos)
 	}
 }
 
-float	getMinute(float hour){
+float	Train::getMinute(float hour){
 	return (trunc((hour - trunc(hour)) / 0.016666668f));
-}
-
-void	Train::pathfinding(void){
-	if (!_departure || !_arrival)
-		return ;
-	uint			recursive = MAX_RECURSIVE;
-	vector<City*>	nodes;
-	pathfindingRecursive(recursive, nodes, _departure);
 }
 
 void	Train::output(float hour, State& state, size_t i, float d){
@@ -87,6 +68,25 @@ void	Train::output(float hour, State& state, size_t i, float d){
 	}
 	if (d <= 0.f) cout << 'O' << endl;
 	else  cout << '.' << endl;
+}
+
+Train::Train(string name, float maxAcceleration, float maxBrake, float departureHour,
+City* departure, City* arrival, Overtaking* overtaking):
+_name(name), _maxAcceleration(maxAcceleration), _maxBrake(maxBrake), _departureHour(departureHour),
+_departure(departure), _arrival(arrival), _time(0.f), _overtaking(overtaking){
+	if (_overtaking == NULL)
+		throw (runtime_error("Train::_overtaking can't be NULL"));
+	static uint	id = 0;
+
+	_id = id++;
+}
+
+void	Train::pathfinding(void){
+	if (!_departure || !_arrival)
+		return ;
+	uint			recursive = MAX_RECURSIVE;
+	vector<City*>	nodes;
+	pathfindingRecursive(recursive, nodes, _departure);
 }
 
 void	Train::execute(void){

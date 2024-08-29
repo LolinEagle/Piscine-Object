@@ -1,5 +1,13 @@
 #include <Overtaking.hpp>
 
+Overtaking*	Overtaking::_instance = NULL;
+
+Overtaking*	Overtaking::getInstance(void){
+	if (_instance == NULL)
+		_instance = new Overtaking();
+	return (_instance);
+}
+
 Overtaking::~Overtaking(){
 	for (City* city: _citys)
 		delete (city);
@@ -147,4 +155,3 @@ void	Overtaking::inputTrainComposition(const string &filepath){
 		addTrain(train);
 	}
 }
-

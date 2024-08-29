@@ -24,6 +24,10 @@ private:
 	vector<City*>	_nodes;
 	float			_time;
 	Overtaking*		_overtaking;
+
+	void	pathfindingRecursive(uint recursive, vector<City*> nodes, City* pos);
+	float	getMinute(float hour);
+	void	output(float t, State& state, size_t i, float d);
 public:
 	Train(string name, float maxAcceleration, float maxBrake, float departureHour,
 	City* departure, City* arrival, Overtaking* overtaking);
@@ -35,9 +39,8 @@ public:
 	vector<City*>	getNodes(void){return (_nodes);}
 	float			getTime(void){return (_time);}
 
-	void	pathfindingRecursive(uint recursive, vector<City*> nodes, City* pos);
+	// Command
 	void	pathfinding(void);
-	void	output(float t, State& state, size_t i, float d);
 	void	execute(void);
 	void	printAll(void);
 };

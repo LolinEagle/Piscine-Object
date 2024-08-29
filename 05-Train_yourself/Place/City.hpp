@@ -15,6 +15,8 @@ public:
 	string			getName(void){return (_name);}
 	vector<Rail*>	getRails(void){return (_rails);}
 
+	// Command
 	void	addRail(Rail* rail);
+
 	Rail*	getRailToCity(City* city);
 };

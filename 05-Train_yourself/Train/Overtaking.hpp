@@ -5,6 +5,7 @@
 
 class Train;
 
+// Singleton & Mediator
 class Overtaking{
 private:
 	struct s_event{
@@ -14,13 +15,21 @@ private:
 		City*	where;
 	};
 
+	static Overtaking*	_instance;
+
 	vector<City*>	_citys;
 	vector<Train*>	_trains;
 	vector<Rail*>	_rails;
 	vector<s_event>	_events;
-public:
+
 	Overtaking(void){}
+public:
 	~Overtaking();
+
+	Overtaking(const Overtaking &copy) = delete;
+	void	operator=(const Overtaking &copy) = delete;
+
+	static Overtaking*	getInstance(void);
 
 	City*			getCity(string name);
 	Train*			getTrain(string name);
@@ -32,10 +41,10 @@ public:
 	void			setTrains(vector<Train*> trains){_trains = trains;}
 	void			setRails(vector<Rail*> rails){_rails = rails;}
 
+	// Command
 	void	addCity(City* city);
 	void	addTrain(Train* train);
 	void	addRail(Rail* rail);
-
 	void	inputRailNetwork(const string &filepath);
 	void	inputTrainComposition(const string &filepath);
 };
