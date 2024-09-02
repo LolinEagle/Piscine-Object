@@ -7,9 +7,6 @@
 class Facade{
 private:
 	Overtaking*	_overtaking;
-	Train*		_ab1;
-	Train*		_ac1;
-	Train*		_ab2;
 	bool		_a, _b, _c;
 
 	void	outputTrain(Train* train);

@@ -13,11 +13,6 @@ _a(true), _b(true), _c(true){
 	// Input
 	_overtaking->inputRailNetwork(railNetwork);
 	_overtaking->inputTrainComposition(trainComposition);
-
-	// Set train
-	_ab1 = _overtaking->getTrain("TrainAB1");
-	_ac1 = _overtaking->getTrain("TrainAC");
-	_ab2 = _overtaking->getTrain("TrainAB2");
 }
 
 Facade::~Facade(){
@@ -33,7 +28,11 @@ void	Facade::output(void){
 		else if (e.event == 0 && e.where->getName() == "CityC" && rand() % 100 < e.chance * 100)
 			_c = false;
 	}
-	if (_a && _b) outputTrain(_ab1);
-	if (_a && _c) outputTrain(_ac1);
-	if (_a && _b) outputTrain(_ab2);
+	for (Train* train: _overtaking->getTrains()){
+		if ((train->getName().find('A') != string::npos && _a == false) ||
+			(train->getName().find('B') != string::npos && _b == false) ||
+			(train->getName().find('C') != string::npos && _c == false))
+			continue ;
+		outputTrain(train);
+	}
 }

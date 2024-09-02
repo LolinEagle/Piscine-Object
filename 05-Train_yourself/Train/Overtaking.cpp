@@ -118,6 +118,10 @@ void	Overtaking::inputRailNetwork(const string &filepath){
 	}
 }
 
+bool	isNumber(const string& s){
+	return (!s.empty() && find_if(s.begin(), s.end(), [](unsigned char c){return (!isdigit(c) && c != '.' && c != 'h');}) == s.end());
+}
+
 void	Overtaking::inputTrainComposition(const string &filepath){
 	ifstream	file(filepath.data());
 	string		line;
@@ -132,19 +136,30 @@ void	Overtaking::inputTrainComposition(const string &filepath){
 		City*	arrival;
 
 		iss >> name;// 1. a name
+
 		iss >> token;
+		if (!isNumber(token))
+			throw (runtime_error("Overtaking::inputTrainComposition() : Bad input"));
 		maxAcceleration = stof(token);// 2. the maximum acceleration force
+
 		iss >> token;
+		if (!isNumber(token))
+			throw (runtime_error("Overtaking::inputTrainComposition() : Bad input"));
 		maxBrake = stof(token);// 3. the maximum brake force
+
 		iss >> token;
 		departure = getCity(token);// 4. the departure train station
 		if (departure == NULL)
 			cout << YELLOW << "Warning : " << name << " departure is not set" << ENDL;
+
 		iss >> token;
 		arrival = getCity(token);// 5. the arrival train station
 		if (arrival == NULL)
 			cout << YELLOW << "Warning : " << name << " arrival is not set" << ENDL;
+
 		iss >> token;
+		if (!isNumber(token))
+			throw (runtime_error("Overtaking::inputTrainComposition() : Bad input"));
 		size_t	pos = token.find('h');
 		string	sub = token.substr(0, pos);
 		hour = stof(sub);

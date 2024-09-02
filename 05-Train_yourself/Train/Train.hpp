@@ -27,6 +27,7 @@ private:
 
 	void	pathfindingRecursive(uint recursive, vector<City*> nodes, City* pos);
 	float	getMinute(float hour);
+	void	outputFile(float hour, State& state, size_t i, float d);
 	void	output(float t, State& state, size_t i, float d);
 public:
 	Train(string name, float maxAcceleration, float maxBrake, float departureHour,

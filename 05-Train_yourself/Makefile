@@ -28,9 +28,9 @@ fclean:clean
 re:fclean
 	make all
 
-run:all
+run:re
 	clear
-	valgrind ./${NAME}
+	valgrind ./${NAME} Input/RailNetwork Input/TrainComposition
 
 ${OBJ_PATH}%.o:${SRC_PATH}%.cpp
 	${CPP} ${CPPFLAGS} ${INC} -c $< -o $@

@@ -37,7 +37,48 @@ float	Train::getMinute(float hour){
 	return (trunc((hour - trunc(hour)) / 0.016666668f));
 }
 
+void	Train::outputFile(float hour, State& state, size_t i, float d){
+	ofstream	file;
+	file.open("Output.txt", ofstream::out | ofstream::app);
+
+	// 1. The time since start
+	file << setfill('0') << setw(2) << trunc(hour) << 'h' << setw(2) << getMinute(hour) << " - " <<
+			_nodes[i]->getName() << "->" <<// 2. The node where the train started
+			_nodes[i + 1]->getName() << " - ";// 3. The node where the train will arrive
+
+	// 4. The distance left to the final destination of the travel
+	file << fixed << setprecision(2) << d << "km - " << setprecision(0);
+
+	// 5. An indication of what the train is doing
+	if (state == State::SpeedingUp) file << "Speed up - ";
+	else if (state == State::MaintainingSpeed) file << "Maintain - ";
+	else if (state == State::Bracking) file << "Bracking - ";
+	else if (state == State::Stopped) file << "Stopped - ";
+	else if (state == State::PassengerDiscomfort) file << "Discomfort - ";
+	else throw (runtime_error("Train::output(void) : Bad State"));
+
+	// 6. A graph, representing the rail state, from the starting node to the destination node
+	float	kmTotal = 0.f;
+	for (size_t j = 1; j < _nodes.size(); j++)
+		kmTotal += _nodes[j - 1]->getRailToCity(_nodes[j])->getLength();
+	for (size_t j = 0; j + 1 < _nodes.size(); j++){
+		Rail*	rail = _nodes[j]->getRailToCity(_nodes[j + 1]);
+		for (float km = 0.f; km < rail->getLength(); km += 1.f, kmTotal -= 1.f){
+			if (kmTotal > d - 1.f && kmTotal <= d) file << 'O';
+			else file << '.';
+		}
+		file << 'X';
+	}
+	if (d <= 0.f) file << 'O' << endl;
+	else file << '.' << endl;
+	if (d <= 0.f) file << '\n';
+
+	file.close();
+}
+
 void	Train::output(float hour, State& state, size_t i, float d){
+	outputFile(hour, state, i, d);
+
 	// 1. The time since start
 	cout << setfill('0') << setw(2) << trunc(hour) << 'h' << setw(2) << getMinute(hour) << " - " <<
 			_nodes[i]->getName() << "->" <<// 2. The node where the train started
@@ -67,7 +108,7 @@ void	Train::output(float hour, State& state, size_t i, float d){
 		cout << 'X';
 	}
 	if (d <= 0.f) cout << 'O' << endl;
-	else  cout << '.' << endl;
+	else cout << '.' << endl;
 }
 
 Train::Train(string name, float maxAcceleration, float maxBrake, float departureHour,
