@@ -48,6 +48,10 @@ void	Overtaking::inputRailNetwork(const string &filepath){
 	ifstream	file(filepath.data());
 	string		line;
 
+	if (!file.is_open()){
+		cerr << RED << "Error opening file : " << filepath << ENDL;
+		return ;
+	}
 	while (getline(file, line)){
 		istringstream	iss(line);
 		string			token;
@@ -126,6 +130,10 @@ void	Overtaking::inputTrainComposition(const string &filepath){
 	ifstream	file(filepath.data());
 	string		line;
 
+	if (!file.is_open()){
+		cerr << RED << "Error opening file : " << filepath << ENDL;
+		return ;
+	}
 	while (getline(file, line)){
 		istringstream	iss(line);
 		string			token;
@@ -166,6 +174,11 @@ void	Overtaking::inputTrainComposition(const string &filepath){
 		sub = token.substr(pos + 1);
 		hour += stof(sub) * 0.0166667f;// 6. the hour of departure
 	
+		if (maxAcceleration < 0.5f || maxBrake < 0.5f){
+			cout << YELLOW << "Warning : Train can't have acceleration or brake speed under 0.5 " <<
+					name << " is not added to the train composition" << ENDL;
+			continue ;
+		}
 		Train*	train = new Train(name, maxAcceleration, maxBrake, hour, departure, arrival, this);
 		addTrain(train);
 	}

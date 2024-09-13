@@ -39,7 +39,7 @@ float	Train::getMinute(float hour){
 
 void	Train::outputFile(float hour, State& state, size_t i, float d){
 	ofstream	file;
-	file.open("Output.txt", ofstream::out | ofstream::app);
+	file.open(_name + ".txt", ofstream::out | ofstream::app);
 
 	// 1. The time since start
 	file << setfill('0') << setw(2) << trunc(hour) << 'h' << setw(2) << getMinute(hour) << " - " <<
@@ -71,7 +71,6 @@ void	Train::outputFile(float hour, State& state, size_t i, float d){
 	}
 	if (d <= 0.f) file << 'O' << endl;
 	else file << '.' << endl;
-	if (d <= 0.f) file << '\n';
 
 	file.close();
 }
@@ -131,12 +130,15 @@ void	Train::pathfinding(void){
 }
 
 void	Train::execute(void){
-	float	dist, distLeft, sec, time = _departureHour;
-	State	state;
-	auto	events = _overtaking->getEvents();
+	float		dist, distLeft, sec, time = _departureHour;
+	State		state;
+	auto		events = _overtaking->getEvents();
+	ofstream	file;
 
-	cout << "Train : " << _name << "\nEstimated optimal travel time : " <<
-		trunc(_time) << 'h' << getMinute(_time) << endl;
+	file.open(_name + ".txt", ofstream::out | ofstream::trunc);
+	file << "Train : " << _name << "\nEstimated optimal travel time : " << trunc(_time) << 'h' << getMinute(_time) << endl;
+	file.close();
+	cout << "Train : " << _name << "\nEstimated optimal travel time : " << trunc(_time) << 'h' << getMinute(_time) << endl;
 	for (size_t i = 0; i + 1 < _nodes.size(); i++){
 		// Distance left
 		distLeft = 0.f;
@@ -158,6 +160,7 @@ void	Train::execute(void){
 		dist = 0.f, sec = 0.f;
 		for (float speed = 0.f; speed < MAX_SPEED; sec += 1.f){
 			speed += _maxAcceleration;
+			if (speed > MAX_SPEED) speed = MAX_SPEED;
 			dist += speed / 3600.f;
 		}
 		state = State::MaintainingSpeed;
@@ -172,6 +175,7 @@ void	Train::execute(void){
 		dist = 0.f, sec = 0.f;
 		for (float speed = MAX_SPEED; speed > 0.f; sec += 1.f){
 			speed -= _maxBrake;
+			if (speed < 0.f) speed = 0.f;
 			dist += speed / 3600.f;
 		}
 		state = State::Bracking;

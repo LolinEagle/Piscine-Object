@@ -20,7 +20,7 @@ all:
 	make ${NAME}
 
 clean:
-	${RM} ${OBJ_PATH}
+	${RM} ${OBJ_PATH} *.txt
 
 fclean:clean
 	${RM} ${NAME}
