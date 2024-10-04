@@ -130,6 +130,8 @@ void	Train::pathfinding(void){
 }
 
 void	Train::execute(void){
+	if (_overtaking->getCitys().size() <= 0)
+		return ;
 	float		dist, distLeft, sec, time = _departureHour;
 	State		state;
 	auto		events = _overtaking->getEvents();
