@@ -1,7 +1,7 @@
 #include <Facade.hpp>
 
 void	Facade::outputTrain(Train* train){
-	cout << MAGENTA << "------------------------------------------------------------------" << ENDL;
+	cout << MAGENTA << setfill('_') << setw(109) << ENDL;
 	train->pathfinding();
 	train->execute();
 }

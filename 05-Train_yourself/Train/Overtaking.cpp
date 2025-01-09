@@ -123,7 +123,9 @@ void	Overtaking::inputRailNetwork(const string &filepath){
 }
 
 bool	isNumber(const string& s){
-	return (!s.empty() && find_if(s.begin(), s.end(), [](unsigned char c){return (!isdigit(c) && c != '.' && c != 'h');}) == s.end());
+	return (!s.empty() && find_if(s.begin(), s.end(), [](unsigned char c){
+		return (!isdigit(c) && c != '.' && c != 'h');
+	}) == s.end());
 }
 
 void	Overtaking::inputTrainComposition(const string &filepath){
